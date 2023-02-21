@@ -24,7 +24,7 @@ const Home: NextPage = () => {
                 <iframe
                   width={832}
                   height={485}
-                  src="https://www.youtube.com/embed/QhBnZ6NPOY0"
+                  src="https://www.youtube.com/watch?v=8N7IHtwruvA"
                   allow="autoplay; encrypted-media"
                   allowFullScreen
                   title="Intro video"
