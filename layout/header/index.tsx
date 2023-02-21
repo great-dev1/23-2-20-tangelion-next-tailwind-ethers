@@ -3,19 +3,14 @@ import Link from "next/link"
 import Image from "next/image"
 import { Oxanium } from "@next/font/google"
 import { useAppContext } from "@/context";
+import { getShortAddress, bigintToString4 } from "@/utils"
 
 const oxanium = Oxanium({ subsets: ["latin"] })
 
 const Header = () => {
 
   const { connected, connecting, connect, disconnect, setAccounts, accounts, contract } = useAppContext();
-  const [balance, setBalance] = useState(0);
-
-  const getBalance = async () => {
-    const balanceOf = await contract.balanceOf(accounts[0].toString());
-    setBalance(balanceOf);
-    console.log("BALANCE_OF :>> ", balanceOf);
-  }
+  const { balance, getBalance } = useAppContext();
 
   useEffect(() => {
 
@@ -24,7 +19,7 @@ const Header = () => {
   }, [accounts]);
 
   return (
-    <header className="flex items-center h-[78px] px-8 bg-[#515151CC]">
+    <header className={`flex items-center h-[78px] px-8 duration-1000 ${connected ? "bg-[#127FBCCC]" : "bg-[#515151CC]"}`}>
       <Link href="/">
         <Image className="w-[204px] h-auto" src="/images/logo.svg" width={204} height={47} alt="logo" />
       </Link>
@@ -56,15 +51,20 @@ const Header = () => {
             )
           )}
         </div>
+        {connected &&
+          <div className={`flex justify-end gap-[120px] mt-2 text-sm leading-[18px] text-[#F2E144] ${oxanium.className}`}>
+            <div className="flex items-center gap-2">
+              <span>Account: {getShortAddress(accounts[0])}</span>
+              <button onClick={() => { navigator.clipboard.writeText(accounts[0]); }}>
+                <Image className="w-2.5 h-auto -mt-px" src="/images/clipboard.svg" width={11} height={15} alt="clipboard"
+                />
+              </button>
+            </div>
 
-        <div className={`flex justify-end gap-[120px] mt-2 text-sm leading-[18px] text-[#F2E144] ${oxanium.className}`}>
-          <div className="flex items-center gap-2">
-            <span>Account: {accounts[0]}</span>
-            <Image className="w-2.5 h-auto -mt-px" src="/images/clipboard.svg" width={11} height={15} alt="clipboard" />
+            <span className="font-bold">Balance: {bigintToString4(BigInt(balance))} PIT</span>
           </div>
+        }
 
-          <span className="font-bold">Balance: {balance / 1e8} PIT</span>
-        </div>
       </div>
     </header>
   )

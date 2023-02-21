@@ -8,19 +8,22 @@ declare global {
   }
 }
 
-const PITAddress = "0xebA5a40B6C14bA923e7EA240CD76Bfe7BC606945" //Polygon Mumbai Testnet
+const PITAddress = "0xEe80212570c41E1D21C7B0FA1d2539945fC88868" //Polygon Mumbai Testnet
 
-interface IThemeContext {
-  connected: boolean;
-  connecting: boolean;
-  accounts: string[];
-  setAccounts?: any;
-  contract?: any;
-  connect?: any;
-  disconnect?: any;
+interface IAppContext {
+  connected: boolean
+  connecting: boolean
+  accounts: string[]
+  setAccounts?: any
+  contract?: any
+  connect?: any
+  disconnect?: any
+  showScene1: boolean
+  balance: bigint
+  getBalance: any
 }
 
-interface IAppContextWrapper {
+interface IAppContextProvider {
   children: any;
 }
 
@@ -31,12 +34,15 @@ const defaultState = {
   setAccounts: () => { },
   contract: [],
   connect: () => { },
-  disconnect: () => { }
+  disconnect: () => { },
+  showScene1: false,
+  balance: BigInt(0),
+  getBalance: () => { }
 };
 
-const AppContext = createContext<IThemeContext>(defaultState)
+const AppContext = createContext<IAppContext>(defaultState)
 
-export function AppContextWrapper({ children }: IAppContextWrapper) {
+export function AppContextProvider({ children }: IAppContextProvider) {
 
   const [connected, setWalletConnected] = useState<boolean>(false)
   const [connecting, setWalletConnecting] = useState<boolean>(false)
@@ -44,13 +50,12 @@ export function AppContextWrapper({ children }: IAppContextWrapper) {
   const [signer, setSigner] = useState<any>(null)
   const [contract, setContract] = useState<any>(null)
   const [accounts, setAccounts] = useState<string[]>([])
+  const [showScene1, setShowScene1] = useState<boolean>(false);
+  const [balance, setBalance] = useState<bigint>(BigInt(0))
 
   const connect = async () => {
-
     if (window.ethereum) {
-
       try {
-
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const signer = provider.getSigner()
         const contract = new ethers.Contract(PITAddress, PITAbi, signer)
@@ -66,6 +71,12 @@ export function AppContextWrapper({ children }: IAppContextWrapper) {
         setSigner(signer)
         setContract(contract)
         setAccounts(accounts)
+        // setShowScene1(true)
+
+        // setTimeout(() => {
+        //   setShowScene1(false)
+        // }, 6000);
+
       } catch (e) {
       } finally {
 
@@ -81,8 +92,18 @@ export function AppContextWrapper({ children }: IAppContextWrapper) {
     setAccounts([])
   }
 
+  const getBalance = async () => {
+    console.log("GET_BALANCE========>", accounts[0])
+    const balanceOf = await contract.balanceOf(accounts[0]);
+    setBalance(balanceOf);
+    return balanceOf;
+  }
+
   return (
-    <AppContext.Provider value={{ connected, connecting, accounts, setAccounts, contract, connect, disconnect }}>
+    <AppContext.Provider value={{
+      connected, connecting, accounts, setAccounts, contract, connect, disconnect, showScene1,
+      balance, getBalance
+    }}>
       {children}
     </AppContext.Provider>
   );

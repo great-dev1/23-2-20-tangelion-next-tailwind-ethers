@@ -3,6 +3,7 @@ body {
   color: white;
 }
 
+// Navbar
 .hover-underline {
   position: relative;
 
@@ -40,6 +41,7 @@ body {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(359deg);
   }
@@ -47,4 +49,51 @@ body {
 
 .rotate {
   animation: rotation 2s infinite linear;
+}
+
+// Background Image
+.mono-bg {
+  background-image: url("/images/NY_Monochrome_BG_xl.jpg");
+
+  @media (min-width: 1024px) {
+    background-image: url("/images/NY_Monochrome_BG_2k.jpg");
+  }
+
+  @media (min-width: 1920px) {
+    background-image: url("/images/NY_Monochrome_BG_2k.jpg");
+  }
+
+  @media (min-width: 3840px) {
+    background-image: url("/images/NY_Monochrome_BG_2k.jpg");
+  }
+}
+
+.color-bg {
+  background-image: url("/images/NY_Color_Empty_BG_xl.jpg");
+
+  @media (min-width: 1024px) {
+    background-image: url("/images/NY_Color_Empty_BG_2k.jpg");
+  }
+
+  @media (min-width: 1920px) {
+    background-image: url("/images/NY_Color_Empty_BG_2k.jpg");
+  }
+
+  @media (min-width: 3840px) {
+    background-image: url("/images/NY_Color_Empty_BG_2k.jpg");
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.fadein {
+  animation: fadeIn 0.5s;
 }

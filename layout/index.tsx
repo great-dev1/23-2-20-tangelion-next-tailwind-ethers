@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react"
 import Header from "./header"
+import { useAppContext } from "@/context"
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [wide, setWide] = useState<boolean>(false)
+  const { connected, connecting, connect, setAccounts, accounts, contract, showScene1} = useAppContext()
 
   const checkWideScreen = () => {
     if (window.innerWidth / window.innerHeight > 16 / 9) {
@@ -27,16 +29,17 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      {/* Main content */}
       <div className="min-h-screen flex flex-col">
-        <Header />
+        {!showScene1 && (
+          <Header />
+        )}
         <div className="flex-grow flex items-center justify-center">
           {children}
         </div>
       </div>
 
       {/* Background Image */}
-      <div className={`absolute z-[-1] top-0 left-0 w-full h-full bg-[#515151] bg-[url('/images/NY_Monochrome_BG_xl.jpg')] lg:bg-[url('/images/NY_Monochrome_BG_2k.jpg')] 2k:bg-[url('/images/NY_Monochrome_BG_4k.jpg')] 4k:bg-[url('/images/NY_Monochrome_BG_8k.jpg')] bg-bottom bg-no-repeat ${wide ? "bg-contain" : "bg-cover"}`} />
+      <div className={`absolute z-[-1] top-0 left-0 w-full h-full duration-1000 ${connected ? (showScene1 ? "bg-[#127FBC]" : "color-bg bg-[#127FBC]") : "mono-bg bg-[#515151]"} bg-bottom bg-no-repeat ${wide ? "bg-contain" : "bg-cover"}`} />
     </>
   )
 }

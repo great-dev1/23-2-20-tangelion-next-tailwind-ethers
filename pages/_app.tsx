@@ -4,17 +4,17 @@ import 'tailwindcss/base.css'
 import 'tailwindcss/components.css'
 import 'tailwindcss/utilities.css'
 import "@/styles/globals.scss"
-import { AppContextWrapper } from "@/context"
+import { AppContextProvider } from "@/context"
 
 const overpass_mono = Overpass_Mono({ subsets: ["latin"] })
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <AppContextWrapper>
+    <AppContextProvider>
       <div className={overpass_mono.className}>
         <Component {...pageProps} />
       </div>
-    </AppContextWrapper>
+    </AppContextProvider>
   )
 }
 
