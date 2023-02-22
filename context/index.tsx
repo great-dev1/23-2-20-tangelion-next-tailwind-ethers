@@ -34,7 +34,7 @@ const defaultState = {
 const AppContext = createContext<IAppContext>(defaultState)
 
 export function AppContextProvider({ children }: IAppContextProvider) {
-  const [gameStatus, setGameStaus] = useState<string>(constants.NEW_GAME)
+  const [gameStatus, setGameStaus] = useState<string>(constants.FARMING)
   const [actionStatus, setActionStatus] = useState<string>(constants.START)
   const [txStatus, setTxStatus] = useState<string>(constants.FAILED)
   const [appData, setAppData] = useState<any>({

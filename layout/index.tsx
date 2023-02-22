@@ -32,7 +32,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       >
         <Header />
         <TodayDifficulty />
-        <div className="flex-grow flex items-center justify-center">
+        <div className="relative flex-grow flex items-center justify-center">
           {children}
         </div>
       </div>
