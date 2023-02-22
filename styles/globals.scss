@@ -68,21 +68,21 @@ body {
   }
 }
 
-.color-empty-bg {
-  background-image: url("/images/NY_Color_Empty_BG_xl.jpg");
+// .color-empty-bg {
+//   background-image: url("/images/NY_Color_Empty_BG_xl.jpg");
 
-  @media (min-width: 1024px) {
-    background-image: url("/images/NY_Color_Empty_BG_2k.jpg");
-  }
+//   @media (min-width: 1024px) {
+//     background-image: url("/images/NY_Color_Empty_BG_2k.jpg");
+//   }
 
-  @media (min-width: 1920px) {
-    background-image: url("/images/NY_Color_Empty_BG_2k.jpg");
-  }
+//   @media (min-width: 1920px) {
+//     background-image: url("/images/NY_Color_Empty_BG_2k.jpg");
+//   }
 
-  @media (min-width: 3840px) {
-    background-image: url("/images/NY_Color_Empty_BG_2k.jpg");
-  }
-}
+//   @media (min-width: 3840px) {
+//     background-image: url("/images/NY_Color_Empty_BG_2k.jpg");
+//   }
+// }
 
 .color-new-bg {
   background-image: url("/images/NY_Color_New_BG_xl.jpg");
@@ -114,19 +114,19 @@ body {
   animation: fadeIn 1s;
 }
 
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
+// @keyframes fadeOut {
+//   0% {
+//     opacity: 1;
+//   }
 
-  100% {
-    opacity: 0;
-  }
-}
+//   100% {
+//     opacity: 0;
+//   }
+// }
 
-.fadeOut {
-  animation: fadeOut 1s;
-}
+// .fadeOut {
+//   animation: fadeOut 1s;
+// }
 
 @keyframes blink {
   0% {
@@ -145,5 +145,3 @@ body {
 .blink {
   animation: blink 1s;
 }
-
-

@@ -34,7 +34,7 @@ const defaultState = {
 const AppContext = createContext<IAppContext>(defaultState)
 
 export function AppContextProvider({ children }: IAppContextProvider) {
-  const [gameStatus, setGameStaus] = useState<string>(constants.CUTSCENE_1)
+  const [gameStatus, setGameStaus] = useState<string>(constants.DISCONNECTED)
   const [actionStatus, setActionStatus] = useState<string>(constants.BLINK)
   const [txStatus, setTxStatus] = useState<string>(constants.PENDING)
   const [appData, setAppData] = useState<any>({
