@@ -34,7 +34,7 @@ const defaultState = {
 const AppContext = createContext<IAppContext>(defaultState)
 
 export function AppContextProvider({ children }: IAppContextProvider) {
-  const [gameStatus, setGameStaus] = useState<string>(constants.DEADLINE_2)
+  const [gameStatus, setGameStaus] = useState<string>(constants.GAMEOVER)
   const [actionStatus, setActionStatus] = useState<string>(constants.START)
   const [txStatus, setTxStatus] = useState<string>(constants.FAILED)
   const [appData, setAppData] = useState<any>({
@@ -47,7 +47,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
     difficultyOfGame: "11.4422",
     advantage: "8.7429",
     estimatedEarning: "0.3024",
-    level: 5,
+    level: 1,
     remainingDays: 28,
     deadline1Days: 12,
     deadline2Days: 7,
