@@ -11,9 +11,6 @@ import TxSuccess from "@/components/TxSuccess"
 import TxFailed from "@/components/TxFailed"
 
 const Home: NextPage = () => {
-  const [farmExist, setFarmExist] = useState<boolean>(false)
-  const { connected, connecting, connect, setAccounts, accounts, contract, showScene1 } = useAppContext()
-
 
   return (
     <>
@@ -22,28 +19,7 @@ const Home: NextPage = () => {
       </Head>
 
       <Layout>
-        {connected ? (
-          <>
-            {farmExist ? (
-              <>Farm Exist</>
-            ) : (
-              <>
-                {showScene1 ? (
-                  <CutScene1 />
-                ) : (
-                  // <NewGame />
-                  <TxFailed />
-                )}
-              </>
-            )}
-          </>
-        ) : (
-          <>
-            {!connecting && (
-              <Intro />
-            )}
-          </>
-        )}
+        {}
       </Layout>
     </>
   )
