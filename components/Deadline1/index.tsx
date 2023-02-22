@@ -32,7 +32,7 @@ const Deadline1 = () => {
         </li>
       </ul>
       <p className="text-shadow max-w-[577px] mx-auto mb-12 text-2xl leading-[30px] font-semibold text-[#D2FBE2]">
-        You have <span className="underline">{appData.remainingDays} days left</span> before you lose your level {appData.level} earnings{appData.level < 12 && " and your right to access the next level"}.
+        You have <span className="underline">{appData.deadline1Days} days left</span> before you lose your level {appData.level} earnings{appData.level < 12 && " and your right to access the next level"}.
       </p>
       <div className={`flex ${appData.level < 12 ? "justify-between" : "justify-center"} `}>
         {appData.level < 12 && (
