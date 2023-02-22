@@ -34,9 +34,9 @@ const defaultState = {
 const AppContext = createContext<IAppContext>(defaultState)
 
 export function AppContextProvider({ children }: IAppContextProvider) {
-  const [gameStatus, setGameStaus] = useState<string>(constants.CUTSCENE_1)
-  const [actionStatus, setActionStatus] = useState<string>(constants.BLINK)
-  const [txStatus, setTxStatus] = useState<string>(constants.PENDING)
+  const [gameStatus, setGameStaus] = useState<string>(constants.NEW_GAME)
+  const [actionStatus, setActionStatus] = useState<string>(constants.HARVEST)
+  const [txStatus, setTxStatus] = useState<string>(constants.FAILED)
   const [appData, setAppData] = useState<any>({
     balance: "9999.1234",
     wallet: "0xcF8c7A11bAF05b249aE36D0809f668FF5C5314d5",
@@ -55,7 +55,8 @@ export function AppContextProvider({ children }: IAppContextProvider) {
   })
 
   const changeStatus = (action: string, payload: string) => {
-
+    console.log("ACTION", action)
+    console.log("PAYLOAD", payload)
   }
 
   return (

@@ -16,7 +16,7 @@ const Intro = () => {
     <>
       {
         showVideo ? (
-          <video className="w-[757px] h-[441px]" autoPlay muted>
+          <video className="fadein w-[757px] h-[441px] rounded-[10px]" autoPlay muted controls>
             <source src="/videos/intro.mp4" type="video/mp4" />
           </video>
         ) : (

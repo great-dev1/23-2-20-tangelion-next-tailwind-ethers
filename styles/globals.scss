@@ -100,6 +100,22 @@ body {
   }
 }
 
+.color-crowd-bg {
+  background-image: url("/images/NY_Color_Crowd_BG_xl.jpg");
+
+  @media (min-width: 1024px) {
+    background-image: url("/images/NY_Color_Crowd_BG_2k.jpg");
+  }
+
+  @media (min-width: 1920px) {
+    background-image: url("/images/NY_Color_Crowd_BG_2k.jpg");
+  }
+
+  @media (min-width: 3840px) {
+    background-image: url("/images/NY_Color_Crowd_BG_2k.jpg");
+  }
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;
@@ -114,19 +130,19 @@ body {
   animation: fadeIn 1s;
 }
 
-// @keyframes fadeOut {
-//   0% {
-//     opacity: 1;
-//   }
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
 
-//   100% {
-//     opacity: 0;
-//   }
-// }
+  100% {
+    opacity: 0;
+  }
+}
 
-// .fadeOut {
-//   animation: fadeOut 1s;
-// }
+.fadeOut {
+  animation: fadeOut 1s;
+}
 
 @keyframes blink {
   0% {

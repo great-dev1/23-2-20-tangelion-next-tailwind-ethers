@@ -5,9 +5,6 @@ import Layout from "@/layout"
 import Intro from "@/components/Intro"
 import CutScene1 from "@/components/CutScene1"
 import NewGame from "@/components/NewGame"
-import TxPending from "@/components/TxPending"
-import TxSuccess from "@/components/TxSuccess"
-import TxFailed from "@/components/TxFailed"
 import { useAppContext } from "@/context"
 import constants from "@/utils/constants"
 
@@ -25,6 +22,7 @@ const Home: NextPage = () => {
         {gameStatus === constants.DISCONNECTED && <Intro />}
         {gameStatus === constants.CONNECTING && <></>}
         {gameStatus === constants.CUTSCENE_1 && <CutScene1 />}
+        {gameStatus === constants.NEW_GAME && <NewGame />}
       </Layout>
     </>
   )
