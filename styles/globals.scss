@@ -68,7 +68,7 @@ body {
   }
 }
 
-.color-bg {
+.color-empty-bg {
   background-image: url("/images/NY_Color_Empty_BG_xl.jpg");
 
   @media (min-width: 1024px) {
@@ -84,6 +84,22 @@ body {
   }
 }
 
+.color-new-bg {
+  background-image: url("/images/NY_Color_New_BG_xl.jpg");
+
+  @media (min-width: 1024px) {
+    background-image: url("/images/NY_Color_New_BG_2k.jpg");
+  }
+
+  @media (min-width: 1920px) {
+    background-image: url("/images/NY_Color_New_BG_2k.jpg");
+  }
+
+  @media (min-width: 3840px) {
+    background-image: url("/images/NY_Color_New_BG_2k.jpg");
+  }
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;
@@ -95,5 +111,39 @@ body {
 }
 
 .fadein {
-  animation: fadeIn 0.5s;
+  animation: fadeIn 1s;
 }
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.fadeOut {
+  animation: fadeOut 1s;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.blink {
+  animation: blink 1s;
+}
+
+

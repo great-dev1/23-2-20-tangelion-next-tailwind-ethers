@@ -11,7 +11,7 @@ const Tutorial: NextPage = () => {
       </Head>
 
       <Layout>
-        <TBD />
+        <TBD title="Tutorial" />
       </Layout>
     </>
   )

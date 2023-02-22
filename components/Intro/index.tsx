@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
+import { Overpass_Mono } from "@next/font/google"
 import { useAppContext } from "@/context"
 
-// interface IIntro {
-//   showVideo: boolean
-//   setShowVideo: React.Dispatch<React.SetStateAction<boolean>>
-// }
+const overpassMono = Overpass_Mono({ subsets: ["latin"] })
 
 const Intro = () => {
   const [showVideo, setShowVideo] = useState<boolean>(false)
@@ -29,7 +27,7 @@ const Intro = () => {
         />
       ) : (
         <div className="relative flex items-center justify-center gap-[72px] w-[757px] h-[441px] rounded-[10px] bg-[#DAC94C99] fadein">
-          <div className="absolute left-[145px] text-5xl leading-[60px] font-bold uppercase text-[#DA4C4C]">
+          <div className={`absolute left-[145px] text-5xl leading-[60px] font-bold uppercase text-[#DA4C4C] ${overpassMono.className}`}>
             <p>Play</p>
             <p className="text-[32px] leading-10">Intro</p>
           </div>

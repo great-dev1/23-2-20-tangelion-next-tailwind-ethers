@@ -4,7 +4,8 @@ import { useAppContext } from "@/context"
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [wide, setWide] = useState<boolean>(false)
-  const { connected, connecting, connect, setAccounts, accounts, contract, showScene1} = useAppContext()
+  const [farmExist, setFarmExist] = useState<boolean>(false)
+  const { connected, connecting, connect, setAccounts, accounts, contract, showScene1 } = useAppContext()
 
   const checkWideScreen = () => {
     if (window.innerWidth / window.innerHeight > 16 / 9) {
@@ -39,7 +40,16 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </div>
 
       {/* Background Image */}
-      <div className={`absolute z-[-1] top-0 left-0 w-full h-full duration-1000 ${connected ? (showScene1 ? "bg-[#127FBC]" : "color-bg bg-[#127FBC]") : "mono-bg bg-[#515151]"} bg-bottom bg-no-repeat ${wide ? "bg-contain" : "bg-cover"}`} />
+      <div className={`
+        absolute z-[-1] top-0 left-0 w-full h-full bg-[#127FBC] duration-1000
+        ${connected ? (
+          !showScene1 && (
+            farmExist ? "color-empty-bg" : "color-new-bg"
+          )
+        ) : "mono-bg bg-[#515151]"}
+        bg-bottom bg-no-repeat
+        ${wide ? "bg-contain" : "bg-cover"}
+      `} />
     </>
   )
 }

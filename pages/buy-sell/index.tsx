@@ -11,7 +11,7 @@ const BuySell: NextPage = () => {
       </Head>
 
       <Layout>
-        <TBD />
+        <TBD title="Buy/Sell PIT" />
       </Layout>
     </>
   )

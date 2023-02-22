@@ -21,6 +21,8 @@ interface IAppContext {
   showScene1: boolean
   balance: bigint
   getBalance: any
+  showBlink: boolean
+  setShowBlink: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 interface IAppContextProvider {
@@ -37,21 +39,23 @@ const defaultState = {
   disconnect: () => { },
   showScene1: false,
   balance: BigInt(0),
-  getBalance: () => { }
+  getBalance: () => { },
+  showBlink: false,
+  setShowBlink: () => { },
 };
 
 const AppContext = createContext<IAppContext>(defaultState)
 
 export function AppContextProvider({ children }: IAppContextProvider) {
-
-  const [connected, setWalletConnected] = useState<boolean>(false)
-  const [connecting, setWalletConnecting] = useState<boolean>(false)
-  const [provider, setProvider] = useState<any>(null)
-  const [signer, setSigner] = useState<any>(null)
+  const [connected, setConnected] = useState<boolean>(false)
+  const [connecting, setConnecting] = useState<boolean>(false)
+  // const [provider, setProvider] = useState<any>(null)
+  // const [signer, setSigner] = useState<any>(null)
   const [contract, setContract] = useState<any>(null)
   const [accounts, setAccounts] = useState<string[]>([])
   const [showScene1, setShowScene1] = useState<boolean>(false);
   const [balance, setBalance] = useState<bigint>(BigInt(0))
+  const [showBlink, setShowBlink] = useState<boolean>(false)
 
   const connect = async () => {
     if (window.ethereum) {
@@ -59,24 +63,24 @@ export function AppContextProvider({ children }: IAppContextProvider) {
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const signer = provider.getSigner()
         const contract = new ethers.Contract(PITAddress, PITAbi, signer)
+        // setProvider(provider)
+        // setSigner(signer)
+        setContract(contract)
 
-        setWalletConnecting(true)
+        setConnecting(true)
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         })
-        setWalletConnected(true)
-        setWalletConnecting(false)
-        window.ethereum.on("accountsChanged", setAccounts)
-        setProvider(provider)
-        setSigner(signer)
-        setContract(contract)
+        setConnecting(false)
+        setConnected(true)
         setAccounts(accounts)
         // setShowScene1(true)
 
         // setTimeout(() => {
         //   setShowScene1(false)
-        // }, 6000);
+        // }, 7000);
 
+        window.ethereum.on("accountsChanged", setAccounts)
       } catch (e) {
       } finally {
 
@@ -88,7 +92,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
 
   const disconnect = () => {
     window.ethereum.removeListener("accountsChanged", setAccounts)
-    setWalletConnected(false)
+    setConnected(false)
     setAccounts([])
   }
 
@@ -101,8 +105,12 @@ export function AppContextProvider({ children }: IAppContextProvider) {
 
   return (
     <AppContext.Provider value={{
-      connected, connecting, accounts, setAccounts, contract, connect, disconnect, showScene1,
-      balance, getBalance
+      connected, connecting,
+      accounts, setAccounts,
+      contract, connect, disconnect,
+      showScene1,
+      balance, getBalance,
+      showBlink, setShowBlink,
     }}>
       {children}
     </AppContext.Provider>
