@@ -30,11 +30,11 @@ const Background = () => {
 
   return (
     <div className={`
-      absolute z-[-1] top-0 left-0 w-full h-full
+      absolute z-[-1] top-0 left-0 w-full h-full bg-[#127FBC]
       ${gameStatus === constants.DISCONNECTED || gameStatus === constants.CONNECTING ? (
         "mono-bg bg-[#515151]"
       ) : (
-        "color-new-bg bg-[#127FBC]"
+        gameStatus !== constants.CUTSCENE_1 && "color-new-bg"
       )} 
       bg-bottom bg-no-repeat
       ${wide ? "bg-contain" : "bg-cover"}

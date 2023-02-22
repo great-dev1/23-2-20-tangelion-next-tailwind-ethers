@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Overpass_Mono } from "@next/font/google"
@@ -22,7 +21,7 @@ const Header = () => {
             </Link>
 
             <div className="ml-auto">
-              <div className={`flex justify-end gap-[146px] text-sm font-bold leading-[18px] ${overpassMono.className}`}>
+              <div className={`flex justify-end gap-[146px] ${overpassMono.className} text-sm font-bold leading-[18px]`}>
                 <Link href="/buy-sell" className="hover-underline">
                   <span>buy/sell PIT</span>
                 </Link>
@@ -60,7 +59,7 @@ const Header = () => {
                   <div className="flex justify-end gap-[120px] mt-2 text-sm leading-[18px] text-[#F2E144]">
                     <div className="flex items-center gap-2">
                       <span>Account: {getShortAddress(appData.wallet)}</span>
-                      <button onClick={() => { navigator.clipboard.writeText(appData.wallet) }}>
+                      <button onClick={() => navigator.clipboard.writeText(appData.wallet)}>
                         <Image className="w-2.5 h-auto -mt-px" src="/images/clipboard.svg" width={11} height={15} alt="clipboard"
                         />
                       </button>

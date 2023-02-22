@@ -11,7 +11,6 @@ const NewGame = () => {
   const [txFailed, setTxFailed] = useState<boolean>(false)    //transaction failed
   const [txHash, setTxHash] = useState<string>("")
   const [farmInfo, setFarmInfo] = useState<any>([])         //farminfo
-  const { connected, contract, getBalance, showBlink, setShowBlink } = useAppContext()
 
   const [startFarming, setStartFarming] = useState<any>({
     farmer: "Loading...",

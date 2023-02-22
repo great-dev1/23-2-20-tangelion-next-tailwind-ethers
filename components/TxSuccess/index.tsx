@@ -1,3 +1,4 @@
+import Link from "next/link"
 import Image from "next/image"
 import WhiteButton from "../WhiteButton"
 
@@ -8,9 +9,9 @@ const TxSuccess = () => {
       <h4 className="mb-2.5 font-medium">Transaction hash:</h4>
       <p className="flex items-center gap-3 mb-auto">
         <span className="text-sm font-medium">0xbd6133cd3de7e845152f82a44cb19b66bbf0a45970fa41e45ce5eead3253f282</span>
-        <a href="/">
+        <Link href="/">
           <Image src="/images/open-link.svg" width={15} height={15} alt="open link" />
-        </a>
+        </Link>
       </p>
       <WhiteButton>OK</WhiteButton>
     </div>
