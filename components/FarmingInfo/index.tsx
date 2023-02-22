@@ -9,26 +9,28 @@ const FarmingInfo = () => {
 
   return (
     <div className={`absolute top-0 left-0 ${expand ? "w-[574px] py-12" : "w-[220px] py-[22px]"} px-8 bg-[#127FBCE6] duration-300`}>
-      <ul className={`flex flex-col ${expand ? "pb-6 text-xl gap-10" : "pb-3 gap-[26px]"} leading-none duration-300`}>
+      <ul className={`flex flex-col ${expand ? "pb-6 text-xl gap-10" : "pb-3 gap-[26px]"} leading-none truncate duration-300`}>
         <li className="flex justify-between">
           {expand && <h2>Deposit</h2>}
           <h3 className="text-[#9FFB98]">{appData.deposite} PIT</h3>
         </li>
         <div className="flex flex-col gap-5">
           <li className="flex justify-between">
-            {expand && <h2>
-              Farming earnings current level<br />
-              <span className="text-base">(last update: yesterday)</span>
-            </h2>
-            }
+            {expand && (
+              <div>
+                <h2>Farming earnings current of level</h2>
+                <p className="text-base">(last update: yesterday)</p>
+              </div>
+            )}
             <h3 className="text-[#F2E144]">{appData.earningOfLevel} PIT</h3>
           </li>
           <li className="flex justify-between">
-            {expand && <h2>
-              Farming earnings current game<br />
-              <span className="text-base">(last update: yesterday)</span>
-            </h2>
-            }
+            {expand && (
+              <div>
+                <h2>Farming earnings of current game</h2>
+                <p className="text-base">(last update: yesterday)</p>
+              </div>
+            )}
             <h3 className="text-[#F2E144]">{appData.earningOfGame} PIT</h3>
           </li>
           <li className="flex justify-between">

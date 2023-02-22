@@ -6,6 +6,7 @@ import Intro from "@/components/Intro"
 import CutScene1 from "@/components/CutScene1"
 import NewGame from "@/components/NewGame"
 import FarmingInfo from "@/components/FarmingInfo"
+import Deadline1 from "@/components/Deadline1"
 import { useAppContext } from "@/context"
 import constants from "@/utils/constants"
 
@@ -25,6 +26,8 @@ const Home: NextPage = () => {
         {gameStatus === constants.CUTSCENE_1 && <CutScene1 />}
         {gameStatus === constants.NEW_GAME && <NewGame />}
         {gameStatus === constants.FARMING && <FarmingInfo />}
+        {gameStatus === constants.DEADLINE_1 && <Deadline1 />}
+
       </Layout>
     </>
   )

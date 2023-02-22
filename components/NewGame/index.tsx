@@ -21,8 +21,8 @@ const NewGame = () => {
     <>
       {
         actionStatus === constants.START || actionStatus === constants.BLINK ? (
-          <div className="fadein w-[863px] h-[426px] px-[45px] py-[27px] rounded-[10px] text-center bg-[#127FBCE6]">
-            <h2 className="mb-[62px] text-[40px] font-bold uppercase">New Game</h2>
+          <div className="fadein w-[863px] px-[45px] py-[27px] rounded-[10px] text-center bg-[#127FBCE6]">
+            <h2 className="mb-[62px] text-[40px] font-bold leading-[50px] uppercase">New Game</h2>
             <div className="flex justify-between mb-8">
               {/* Enter your deposit (PIT) */}
               <div className="flex flex-col items-center gap-[13px]">

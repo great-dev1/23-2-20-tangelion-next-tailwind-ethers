@@ -34,21 +34,21 @@ const defaultState = {
 const AppContext = createContext<IAppContext>(defaultState)
 
 export function AppContextProvider({ children }: IAppContextProvider) {
-  const [gameStatus, setGameStaus] = useState<string>(constants.FARMING)
+  const [gameStatus, setGameStaus] = useState<string>(constants.DEADLINE_1)
   const [actionStatus, setActionStatus] = useState<string>(constants.START)
   const [txStatus, setTxStatus] = useState<string>(constants.FAILED)
   const [appData, setAppData] = useState<any>({
     balance: "9999.1234",
     wallet: "0xcF8c7A11bAF05b249aE36D0809f668FF5C5314d5",
-    deposite: "275.67865432",
-    earningOfLevel: "1.65029172",
-    earningOfGame: "11.91829210",
+    deposit: "275.67865432",
+    earningOfLevel: "23.19823123",
+    earningOfGame: "42.34201018",
     difficultyOfToday: "12.1122",
     difficultyOfGame: "11.4422",
-    advantage: "4.4124",
+    advantage: "8.7429",
     estimatedEarning: "0.3024",
-    level: "2",
-    remainingDays: "28",
+    level: 2,
+    remainingDays: 12,
     startDay: "",
     currentDay: "",
     txHash: "0xbd6133cd3de7e845152f82a44cb19b66bbf0a45970fa41e45ce5eead3253f282",
