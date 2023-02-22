@@ -34,9 +34,9 @@ const defaultState = {
 const AppContext = createContext<IAppContext>(defaultState)
 
 export function AppContextProvider({ children }: IAppContextProvider) {
-  const [gameStatus, setGameStaus] = useState<string>(constants.GAMEOVER)
-  const [actionStatus, setActionStatus] = useState<string>(constants.START)
-  const [txStatus, setTxStatus] = useState<string>(constants.FAILED)
+  const [gameStatus, setGameStaus] = useState<string>(constants.DEADLINE_1)
+  const [actionStatus, setActionStatus] = useState<string>(constants.LEVEL_UP)
+  const [txStatus, setTxStatus] = useState<string>(constants.SUCCESS)
   const [appData, setAppData] = useState<any>({
     balance: "9999.1234",
     wallet: "0xcF8c7A11bAF05b249aE36D0809f668FF5C5314d5",
