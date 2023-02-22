@@ -35,7 +35,7 @@ const AppContext = createContext<IAppContext>(defaultState)
 
 export function AppContextProvider({ children }: IAppContextProvider) {
   const [gameStatus, setGameStaus] = useState<string>(constants.NEW_GAME)
-  const [actionStatus, setActionStatus] = useState<string>(constants.HARVEST)
+  const [actionStatus, setActionStatus] = useState<string>(constants.START)
   const [txStatus, setTxStatus] = useState<string>(constants.FAILED)
   const [appData, setAppData] = useState<any>({
     balance: "9999.1234",
@@ -57,6 +57,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
   const changeStatus = (action: string, payload: string) => {
     console.log("ACTION", action)
     console.log("PAYLOAD", payload)
+    // setActionStatus(constants.BLINK)
   }
 
   return (

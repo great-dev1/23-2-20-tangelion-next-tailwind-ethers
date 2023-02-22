@@ -10,6 +10,7 @@ const GAMEOVER = "GAMEOVER"
 // ACTION STATUS
 const DISPLAY = "DISPLAY"
 const BLINK = "BLINK"
+const START = "START"
 const HARVEST = "HARVEST"
 const LEVEL_UP = "LEVEL_UP"
 const REMOVE = "REMOVE"
@@ -57,6 +58,7 @@ export default {
   GAMEOVER,
   DISPLAY,
   BLINK,
+  START,
   HARVEST,
   LEVEL_UP,
   REMOVE,

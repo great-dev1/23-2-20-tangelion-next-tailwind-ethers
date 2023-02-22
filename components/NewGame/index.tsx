@@ -10,7 +10,7 @@ import constants from "@/utils/constants"
 const NewGame = () => {
   const [deposit, setDeposit] = useState<string>("1")
   const { gameStatus, actionStatus, txStatus, appData, changeStatus } = useAppContext()
-  console.log("TX_STATUS", txStatus)
+  console.log("ACTION_STATUS", actionStatus)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -20,7 +20,7 @@ const NewGame = () => {
   return (
     <>
       {
-        txStatus !== constants.PENDING && txStatus !== constants.SUCCESS && txStatus !== constants.FAILED && (
+        actionStatus === constants.START || actionStatus === constants.BLINK ? (
           <div className="fadein w-[863px] h-[426px] px-[45px] py-[27px] rounded-[10px] text-center bg-[#127FBCE6]">
             <h2 className="mb-[62px] text-[40px] font-bold uppercase">New Game</h2>
             <div className="flex justify-between mb-8">
@@ -57,11 +57,14 @@ const NewGame = () => {
             </div>
             <Button onClick={() => changeStatus(constants.start, deposit)}>Start Farming</Button>
           </div>
+        ) : (
+          <>
+            {txStatus === constants.PENDING && <TxPending />}
+            {txStatus === constants.SUCCESS && <StartSuccess />}
+            {txStatus === constants.FAILED && <TxFailed />}
+          </>
         )
       }
-      {txStatus === constants.PENDING && <TxPending />}
-      {txStatus === constants.SUCCESS && <StartSuccess />}
-      {txStatus === constants.FAILED && <TxFailed />}
     </>
   )
 }

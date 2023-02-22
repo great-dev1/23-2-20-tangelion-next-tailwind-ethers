@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import Header from "./header"
+import TodayDifficulty from "./TodayDifficulty"
 import { useAppContext } from "@/context"
 import constants from "@/utils/constants"
 
@@ -30,6 +31,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         style={{ maxWidth }}
       >
         <Header />
+        <TodayDifficulty />
         <div className="flex-grow flex items-center justify-center">
           {children}
         </div>
