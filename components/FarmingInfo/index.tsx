@@ -8,11 +8,11 @@ const FarmingInfo = () => {
   console.log("GAME_STATUS", gameStatus)
 
   return (
-    <div className={`absolute top-0 left-0 ${expand ? "w-[574px] py-12" : "w-[220px] py-[22px]"} px-8 bg-[#127FBCE6] duration-300`}>
+    <div className={`absolute top-0 left-0 ${expand ? "w-[574px] py-12" : "w-[220px] py-[22px]"} px-7 bg-[#127FBCE6] duration-300`}>
       <ul className={`flex flex-col ${expand ? "pb-6 text-xl gap-10" : "pb-3 gap-[26px]"} leading-none truncate duration-300`}>
         <li className="flex justify-between">
           {expand && <h2>Deposit</h2>}
-          <h3 className="text-[#9FFB98]">{appData.deposite} PIT</h3>
+          <h3 className="text-[#9FFB98]">{appData.deposit} PIT</h3>
         </li>
         <div className="flex flex-col gap-5">
           <li className="flex justify-between">
@@ -40,7 +40,21 @@ const FarmingInfo = () => {
         </div>
         <li className="flex justify-between">
           {expand && <h2>Remaining days to level completion</h2>}
-          <h3 className="text-[#F2E144]">{appData.remainingDays} days</h3>
+          <h3 className="flex gap-1 text-[#F2E144]">
+            {appData.remainingDays} days
+            {!expand && (
+              <>
+                <span>left</span>
+                <div className="font-bold">
+                  <span className="dot-1">.</span>
+                  <span className="dot-2">.</span>
+                  <span className="dot-3">.</span>
+                  <span className="dot-4">.</span>
+                  <span className="dot-5">.</span>
+                </div>
+              </>
+            )}
+          </h3>
         </li>
         <li className="flex justify-between">
           {expand && <h2>My farming difficulty</h2>}

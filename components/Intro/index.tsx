@@ -15,9 +15,13 @@ const Intro = () => {
   return (
     <>
       {showVideo ? (
-        <video className="fadein w-[757px] h-[441px] rounded-[10px]" autoPlay muted controls>
-          <source src="/videos/intro.mp4" type="video/mp4" />
-        </video>
+        <>
+          <video className="relative z-10 fadein w-[757px] h-[441px] rounded-[10px]" autoPlay muted controls>
+            <source src="/videos/intro.mp4" type="video/mp4" />
+          </video>
+          {/* Overlay */}
+          <div className="absolute z-0 top-0 left-0 w-full h-full" onClick={() => setShowVideo(false)} />
+        </>
       ) : (
         <div className="fadein relative flex items-center justify-center gap-[72px] w-[757px] h-[441px] rounded-[10px] bg-[#DAC94C99]">
           <div className={`absolute left-[145px] ${overpassMono.className} text-5xl leading-[60px] font-bold uppercase text-[#DA4C4C]`}>
