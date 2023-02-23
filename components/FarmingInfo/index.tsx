@@ -5,10 +5,9 @@ import { useAppContext } from "@/context"
 const FarmingInfo = () => {
   const [expand, setExpand] = useState<boolean>(false)
   const { gameStatus, actionStatus, txStatus, appData, changeStatus } = useAppContext()
-  console.log("GAME_STATUS", gameStatus)
 
   return (
-    <div className={`absolute top-0 left-0 ${expand ? "w-[574px] py-12" : "w-[220px] py-[22px]"} px-7 bg-[#127FBCE6] duration-300`}>
+    <div className={`absolute top-0 left-0 ${expand ? "w-[574px] py-12" : "w-[220px] py-[22px]"} px-8 bg-[#127FBCE6] duration-300`}>
       <ul className={`flex flex-col ${expand ? "pb-6 text-xl gap-10" : "pb-3 gap-[26px]"} leading-none truncate duration-300`}>
         <li className="flex justify-between">
           {expand && <h2>Deposit</h2>}
@@ -43,16 +42,13 @@ const FarmingInfo = () => {
           <h3 className="flex gap-1 text-[#F2E144]">
             {appData.remainingDays} days
             {!expand && (
-              <>
-                <span>left</span>
-                <div className="font-bold">
-                  <span className="dot-1">.</span>
-                  <span className="dot-2">.</span>
-                  <span className="dot-3">.</span>
-                  <span className="dot-4">.</span>
-                  <span className="dot-5">.</span>
-                </div>
-              </>
+              <div className="font-bold">
+                <span className="dot-1">.</span>
+                <span className="dot-2">.</span>
+                <span className="dot-3">.</span>
+                <span className="dot-4">.</span>
+                <span className="dot-5">.</span>
+              </div>
             )}
           </h3>
         </li>

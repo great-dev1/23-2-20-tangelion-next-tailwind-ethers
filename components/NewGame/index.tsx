@@ -2,20 +2,48 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import Button from "../Button"
 import TxPending from "../TxPending"
-import StartSuccess from "../StartSuccess"
+import TxSuccess from "../TxSuccess"
 import TxFailed from "../TxFailed"
 import { useAppContext } from "@/context"
 import constants from "@/utils/constants"
+import { getEstEarning } from "@/utils"
 
 const NewGame = () => {
   const [deposit, setDeposit] = useState<string>("1")
-  const { gameStatus, actionStatus, txStatus, appData, changeStatus } = useAppContext()
-  console.log("ACTION_STATUS", actionStatus)
+  const { gameStatus, actionStatus, txStatus, appData, changeStatus, appDataTemp } = useAppContext()
+  const [estimatedEarning, setEstimatedEarning] = useState<string>("1")
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
-    setDeposit(e.target.value)
+    const RegExp = /^\d*\.?\d*$/
+    if (e.target.value === "" || RegExp.test(e.target.value)) {
+      if (Number(e.target.value) < 1 || e.target.value === ".") {
+        setDeposit("1")
+        return
+      }
+      if (e.target.value.split(".")[1]?.length > 8) {
+        return
+      }
+      setDeposit(e.target.value)
+      setEstimatedEarning(getEstEarning(e.target.value, appData))
+    }
   }
+
+  const handleStart = () => {
+    if (Number(deposit) * 1e8 > appDataTemp.balance) {
+      setTimeout(() => {
+        setDeposit(appData.balance)
+      }, 2000);
+    }
+    if (appData.balance < 1) {
+      return
+    }
+    changeStatus(constants.start, deposit)
+  }
+
+  useEffect(() => {
+    setEstimatedEarning(getEstEarning(deposit, appData))
+  }, [appData.currentDay])
 
   return (
     <>
@@ -30,6 +58,7 @@ const NewGame = () => {
                 className={`${actionStatus === constants.BLINK ? "blink" : ""} w-[250px] h-[50px] px-[25px] border border-[#DAC94C] rounded text-right text-xl font-bold text-black`}
                 id="deposit"
                 name="deposit"
+                autoComplete="off"
                 value={deposit}
                 onChange={(e) => handleChange(e)}
               />
@@ -49,18 +78,18 @@ const NewGame = () => {
                 className="w-[250px] h-[50px] px-[25px] border border-[#DAC94C] rounded text-right text-xl font-bold bg-[#DAC94C9E]"
                 id="estimatedEarning"
                 name="estimatedEarning"
-                value={appData.estimatedEarning}
+                value={estimatedEarning}
                 readOnly
               />
             </div>
           </div>
-          <Button onClick={() => changeStatus(constants.start, deposit)}>Start Farming</Button>
+          <Button onClick={handleStart}>Start Farming</Button>
         </div>
       )}
       {actionStatus === constants.START && (
         <>
           {txStatus === constants.PENDING && <TxPending />}
-          {txStatus === constants.SUCCESS && <StartSuccess />}
+          {txStatus === constants.SUCCESS && <TxSuccess />}
           {txStatus === constants.FAILED && <TxFailed />}
         </>
       )}

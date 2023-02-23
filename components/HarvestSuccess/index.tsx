@@ -1,8 +1,8 @@
-import Link from "next/link"
 import Image from "next/image"
 import WhiteButton from "../WhiteButton"
 import { useAppContext } from "@/context"
 import constants from "@/utils/constants"
+import { getPercentage } from "@/utils"
 
 const HarvestSuccess = () => {
   const { gameStatus, actionStatus, txStatus, appData, changeStatus } = useAppContext()
@@ -16,9 +16,9 @@ const HarvestSuccess = () => {
       <h4 className="mb-2.5 font-medium">Transaction hash:</h4>
       <p className="flex items-center gap-3 mb-8">
         <span className="text-sm font-medium">{appData.txHash}</span>
-        <Link href={`https://polygonscan.com/tx/${appData.txHash}`}>
+        <a href={`https://mumbai.polygonscan.com/tx/${appData.txHash}`} target="_blank" rel="noreferrer">
           <Image src="/images/open-link.svg" width={15} height={15} alt="open link" />
-        </Link>
+        </a>
       </p>
       <ul className="max-w-[411px] flex flex-col gap-6 mx-auto mb-9">
         <li className="flex justify-between text-xl">
@@ -31,7 +31,7 @@ const HarvestSuccess = () => {
         </li>
         <li className="flex justify-between text-xl">
           <h4 className="font-medium">Earnings percentage</h4>
-          <p className="font-bold">{appData.earningOfGame * 100 / appData.deposit}%</p>
+          <p className="font-bold">{getPercentage(appData.earningOfGame * 100 / appData.deposit)}%</p>
         </li>
       </ul>
       <WhiteButton onClick={() => changeStatus(constants.okay, constants.success)}>OK</WhiteButton>

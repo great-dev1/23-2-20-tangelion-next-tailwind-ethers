@@ -1,0 +1,13 @@
+{execution reverted: "Existing farm associated to your account found." (action="estimateGas", data="r", reason="Existing farm associated to your account found.", 
+transaction={
+    "data": "r",
+    "from": "0xcF8c7A11bAF05b249aE36D0809f668FF5C5314d5",
+    "to": "0xebA5a40B6C14bA923e7EA240CD76Bfe7BC606945"
+  }, invocation=null, revert={
+    "args": [
+      "Existing farm associated to your account found."
+    ],
+    "name": "Error",
+    "signature": "Error(string)"
+  }, code=CALL_EXCEPTION, version=6.0.5)
+}

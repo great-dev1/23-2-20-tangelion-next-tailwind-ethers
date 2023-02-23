@@ -8,8 +8,6 @@ import constants from "@/utils/constants"
 
 const Deadline1 = () => {
   const { gameStatus, actionStatus, txStatus, appData, changeStatus } = useAppContext()
-  console.log("GAME_STATUS", gameStatus)
-  console.log("APP_DATA", appData)
 
   return (
     <>
@@ -25,7 +23,7 @@ const Deadline1 = () => {
               <h3>Level {appData.level} earnings*:</h3>
               <h4>{appData.earningOfLevel} PIT</h4>
             </li>
-            {appData.level > 2 && (
+            {appData.level > 1 && (
               <li className="flex justify-between">
                 <h3>Total game earnings*:</h3>
                 <h4>{appData.earningOfGame} PIT</h4>
@@ -53,7 +51,7 @@ const Deadline1 = () => {
             <div className="max-w-[204px]">
               {appData.level < 12 && (
                 <p className="mb-4 leading-[20px] font-medium">
-                  Proceed to level 3 and get additional <span className="text-[#9FFB98]">+4% advantage</span> over new farmers
+                  Proceed to level {appData.level + 1} and get additional <span className="text-[#9FFB98]">+4% advantage</span> over new farmers
                 </p>
               )}
               <Button onClick={() => changeStatus(constants.level_up)}>Level Up</Button>

@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import type { NextPage } from "next"
 import Head from "next/head"
 import Layout from "@/layout"
@@ -12,8 +13,23 @@ import { useAppContext } from "@/context"
 import constants from "@/utils/constants"
 
 const Home: NextPage = () => {
-  const { gameStatus, actionStatus, txStatus, appData, changeStatus } = useAppContext()
-  console.log("GAME_STATUS", gameStatus)
+  const { gameStatus, actionStatus, txStatus, appData, changeStatus, update, wallet } = useAppContext()
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      console.log("GAME_STATUS:", gameStatus)
+      console.log("ACTION_STATUS:", actionStatus)
+      console.log("APP_DATA:", appData)
+
+      if (gameStatus !== constants.DISCONNECTED && gameStatus !== constants.CUTSCENE_1 && actionStatus === constants.DISPLAY) {
+        update()
+      }
+    }, 2000)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [gameStatus, actionStatus, wallet])
 
   return (
     <>
@@ -30,7 +46,7 @@ const Home: NextPage = () => {
         {gameStatus === constants.DEADLINE_1 && <Deadline1 />}
         {gameStatus === constants.DEADLINE_2 && <Deadline2 />}
         {gameStatus === constants.GAMEOVER && <GameOver />}
-      </Layout>
+      </Layout >
     </>
   )
 }

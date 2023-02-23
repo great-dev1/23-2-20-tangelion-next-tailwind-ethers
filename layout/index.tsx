@@ -7,7 +7,6 @@ import constants from "@/utils/constants"
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [maxWidth, setMaxWidth] = useState<number>()
   const { gameStatus, actionStatus, txStatus, appData, changeStatus } = useAppContext()
-  console.log("GAME_STATUS", gameStatus)
 
   const changeMaxWidth = () => {
     setMaxWidth(window.innerHeight * 16 / 9)

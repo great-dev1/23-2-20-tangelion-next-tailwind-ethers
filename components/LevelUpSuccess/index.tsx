@@ -1,4 +1,3 @@
-import Link from "next/link"
 import Image from "next/image"
 import WhiteButton from "../WhiteButton"
 import { useAppContext } from "@/context"
@@ -16,9 +15,9 @@ const LevelUpSuccess = () => {
       <h4 className="mb-2.5 font-medium">Transaction hash:</h4>
       <p className="flex items-center gap-3 mb-8">
         <span className="text-sm font-medium">{appData.txHash}</span>
-        <Link href={`https://polygonscan.com/tx/${appData.txHash}`}>
+        <a href={`https://mumbai.polygonscan.com/tx/${appData.txHash}`} target="_blank" rel="noreferrer">
           <Image src="/images/open-link.svg" width={15} height={15} alt="open link" />
-        </Link>
+        </a>
       </p>
       <ul className="max-w-[411px] flex flex-col gap-6 mx-auto mb-9">
         <li className="flex justify-between text-xl">

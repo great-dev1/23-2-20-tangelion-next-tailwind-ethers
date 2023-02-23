@@ -8,8 +8,7 @@ import constants from "@/utils/constants"
 const overpassMono = Overpass_Mono({ subsets: ["latin"] })
 
 const Header = () => {
-  const { gameStatus, actionStatus, txStatus, appData, changeStatus } = useAppContext()
-  console.log("GAME_STATUS", gameStatus)
+  const { gameStatus, actionStatus, txStatus, appData, changeStatus, wallet } = useAppContext()
 
   return (
     <>
@@ -52,8 +51,8 @@ const Header = () => {
             {gameStatus !== constants.DISCONNECTED && gameStatus !== constants.CONNECTING && (
               <div className="flex justify-end gap-[120px] mt-2 text-sm leading-[18px] text-[#F2E144]">
                 <div className="flex items-center gap-2">
-                  <span>Account: {getShortAddress(appData.wallet)}</span>
-                  <button onClick={() => navigator.clipboard.writeText(appData.wallet)}>
+                  <span>Account: {getShortAddress(wallet)}</span>
+                  <button onClick={() => navigator.clipboard.writeText(wallet)}>
                     <Image className="w-2.5 h-auto -mt-px" src="/images/clipboard.svg" width={11} height={15} alt="clipboard"
                     />
                   </button>

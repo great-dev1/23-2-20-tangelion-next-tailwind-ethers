@@ -7,8 +7,6 @@ import constants from "@/utils/constants"
 
 const Deadline2 = () => {
   const { gameStatus, actionStatus, txStatus, appData, changeStatus } = useAppContext()
-  console.log("GAME_STATUS", gameStatus)
-  console.log("APP_DATA", appData)
 
   return (
     <>
@@ -63,7 +61,7 @@ const Deadline2 = () => {
           {appData.level === 3 && (
             <>
               <p className="max-w-[546px] mx-auto mb-6 text-xl font-medium leading-6 text-[#D9D9D9E6]">
-                You missed the 15-day deadline, your level 3 earnings are burned.
+                You missed the 15-day deadline, your level {appData.level + 1} earnings are burned.
               </p>
               <p className="text-shadow max-w-[577px] mx-auto mb-10 text-2xl leading-[30px] font-semibold text-[#D2FBE2]">
                 Harvest within the next 7 days to pay out your earnings from levels 1 and 2 and your deposit.
