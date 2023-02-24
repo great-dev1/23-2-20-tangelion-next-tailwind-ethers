@@ -33,7 +33,7 @@ const NewGame = () => {
     if (Number(deposit) * 1e8 > appDataTemp.balance) {
       setTimeout(() => {
         setDeposit(appData.balance)
-      }, 2000);
+      }, 1000)
     }
     if (appData.balance < 1) {
       return

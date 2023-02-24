@@ -4,7 +4,7 @@ const getShortAddress = (address: string) => {
   else return ""
 }
 
-//12345678  => string 1234.5678
+// 12345678  => string 1234.5678
 const bigintToString4 = (para: any) => {
   const num = BigInt(para)
   const integer = num / BigInt(1e8)
@@ -12,7 +12,7 @@ const bigintToString4 = (para: any) => {
   return integer.toString() + "." + rest.toString().slice(2)
 }
 
-//12345678 => 1234.5678
+// 12345678 => 1234.5678
 const difficultyToString = (para: any) => {
   const num = BigInt(para)
   const integer = num / BigInt(1e5)
@@ -20,7 +20,7 @@ const difficultyToString = (para: any) => {
   return integer.toString() + "." + rest.toString().slice(2)
 }
 
-//123456789 => 1.23456789
+// 123456789 => 1.23456789
 const bigintToFullrange = (para: any) => {
   const num = BigInt(para)
   const integer = num / BigInt(1e8)
@@ -28,7 +28,7 @@ const bigintToFullrange = (para: any) => {
   return integer.toString() + "." + rest.toString().slice(2)
 }
 
-//1234.5678 => 1234.56
+// 1234.5678 => 1234.56
 const getPercentage = (para: any) => {
   const num = Math.trunc(para * 100)
   const integer = Math.trunc(num / (100))
@@ -36,7 +36,7 @@ const getPercentage = (para: any) => {
   return integer.toString() + "." + rest.toString().slice(1)
 }
 
-//estimated earning
+// estimated earning
 const getEstEarning = (deposit: any, temp: any) => {
   let estimatedfarmingAdvantage
   const farmingPower = deposit * 1e8 / temp.difficultyOfToday
@@ -52,7 +52,7 @@ const getEstEarning = (deposit: any, temp: any) => {
 }
 
 const cookAppData = (temp: any) => {
-  const advantage = temp.advantage > 10 ? temp.advantage.toString().slice(0, 7) : temp.advantage.toString().slice(0, 7);
+  const advantage = temp.advantage > 10 ? temp.advantage.toString().slice(0, 7) : temp.advantage.toString().slice(0, 7)
 
   return {
     ...temp,
@@ -70,7 +70,7 @@ export {
   getShortAddress,
   bigintToString4,
   bigintToFullrange,
-  cookAppData,
-  getEstEarning,
   getPercentage,
+  getEstEarning,
+  cookAppData,
 }

@@ -21,15 +21,15 @@ const HarvestSuccess = () => {
         </a>
       </p>
       <ul className="max-w-[411px] flex flex-col gap-6 mx-auto mb-9">
-        <li className="flex justify-between text-xl">
+        <li className="flex justify-between gap-6 text-xl">
           <h4 className="font-medium">Your total earnings</h4>
           <p className="font-bold">{appData.earningOfGame} PIT</p>
         </li>
-        <li className="flex justify-between text-xl">
+        <li className="flex justify-between gap-6 text-xl">
           <h4 className="font-medium">Your deposit</h4>
           <p className="font-bold">{appData.deposit} PIT</p>
         </li>
-        <li className="flex justify-between text-xl">
+        <li className="flex justify-between gap-6 text-xl">
           <h4 className="font-medium">Earnings percentage</h4>
           <p className="font-bold">{getPercentage(appData.earningOfGame * 100 / appData.deposit)}%</p>
         </li>

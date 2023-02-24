@@ -17,8 +17,8 @@ export class ContractModel {
       try {
         const balance = await this.contract.balanceOf(address)
         resolve(balance)
-      } catch (e) {
-        reject(e)
+      } catch (error) {
+        reject(error)
       }
     })
   }
@@ -42,7 +42,6 @@ export class ContractModel {
       if (farmInfo.farmingID > 0) {
         yieldVal = await this.contract.getYield()
       }
-
       return { ...farmInfo, yieldVal }
     } catch (error: any) {
       return error.reason
@@ -98,8 +97,8 @@ export class ContractModel {
         }
 
         resolve(farmingData)
-      } catch (e: any) {
-        resolve({ success: false, reason: e.reason })
+      } catch (error: any) {
+        resolve({ success: false, reason: error.reason })
       }
     })
   }
@@ -123,8 +122,8 @@ export class ContractModel {
         let txReceipt = await startTx.wait()
         let txHash = txReceipt.events[0].transactionHash
         resolve({ txHash, success: true })
-      } catch (e: any) {
-        resolve({ reason: e.reason, success: false })
+      } catch (error: any) {
+        resolve({ reason: error.reason, success: false })
       }
     })
   }
@@ -136,21 +135,21 @@ export class ContractModel {
         let txReceipt = await startTx.wait()
         let txHash = txReceipt.events[0].transactionHash
         resolve({ txHash, success: true })
-      } catch (err: any) {
-        resolve({ reason: err.reason, success: false })
+      } catch (error: any) {
+        resolve({ reason: error.reason, success: false })
       }
     })
   }
 
-  level_up() {
+  levelUp() {
     return new Promise(async (resolve, reject) => {
       try {
         let startTx = await this.contract.levelup()
         let txReceipt = await startTx.wait()
         let txHash = txReceipt.events[0].transactionHash
         resolve({ txHash, success: true })
-      } catch (err: any) {
-        resolve({ reason: err.reason, success: false })
+      } catch (error: any) {
+        resolve({ reason: error.reason, success: false })
       }
     })
   }

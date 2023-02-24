@@ -1,3 +1,4 @@
+import Head from "next/head"
 import type { AppProps } from "next/app"
 import { Oxanium } from "@next/font/google"
 import 'tailwindcss/base.css'
@@ -10,11 +11,16 @@ const oxanium = Oxanium({ subsets: ["latin"] })
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <AppContextProvider>
-      <div className={oxanium.className}>
-        <Component {...pageProps} />
-      </div>
-    </AppContextProvider>
+    <>
+      <Head>
+        <meta name="viewport" content="viewport-fit=cover" />
+      </Head>
+      <AppContextProvider>
+        <div className={oxanium.className}>
+          <Component {...pageProps} />
+        </div>
+      </AppContextProvider>
+    </>
   )
 }
 

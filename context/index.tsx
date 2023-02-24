@@ -36,7 +36,7 @@ const defaultState = {
   changeStatus: () => { },
   appDataTemp: {},
   update: () => { },
-  wallet: {}
+  wallet: {},
 }
 
 const AppContext = createContext<IAppContext>(defaultState)
@@ -55,12 +55,12 @@ export function AppContextProvider({ children }: IAppContextProvider) {
   const changeStatus = async (action: string, payload: any) => {
     switch (gameStatus) {
       case constants.DISCONNECTED:
-        if (action == constants.connect) {
+        if (action === constants.connect) {
           await connect()
         }
         break
       case constants.NEW_GAME:
-        if (actionStatus != constants.START && action == constants.start) {
+        if (actionStatus !== constants.START && action === constants.start) {
           if (appDataTemp.balance < payload * 1e8) {
             setActionStatus(constants.BLINK)
             setTimeout(() => {
@@ -69,9 +69,9 @@ export function AppContextProvider({ children }: IAppContextProvider) {
           }
           else startFarm(payload)
         }
-        if (actionStatus == constants.START) {
-          if (txStatus == constants.FAILED && action == constants.okay) setActionStatus(constants.DISPLAY)
-          if (txStatus == constants.SUCCESS && action == constants.okay) {
+        if (actionStatus === constants.START) {
+          if (txStatus === constants.FAILED && action === constants.okay) setActionStatus(constants.DISPLAY)
+          if (txStatus === constants.SUCCESS && action === constants.okay) {
             await update()
             setGameStaus(constants.FARMING)
             setActionStatus(constants.DISPLAY)
@@ -81,19 +81,19 @@ export function AppContextProvider({ children }: IAppContextProvider) {
       case constants.FARMING:
         break
       case constants.DEADLINE_1:
-        if (action == constants.harvest) harvest()
-        if (action == constants.level_up) level_up()
-        if (actionStatus == constants.HARVEST) {
-          if (txStatus == constants.FAILED && action == constants.okay) setActionStatus(constants.DISPLAY)
-          if (txStatus == constants.SUCCESS && action == constants.okay) {
+        if (action === constants.harvest) harvest()
+        if (action === constants.level_up) levelUp()
+        if (actionStatus === constants.HARVEST) {
+          if (txStatus === constants.FAILED && action === constants.okay) setActionStatus(constants.DISPLAY)
+          if (txStatus === constants.SUCCESS && action === constants.okay) {
             await update()
             setGameStaus(constants.NEW_GAME)
             setActionStatus(constants.DISPLAY)
           }
         }
-        if (actionStatus == constants.LEVEL_UP) {
-          if (txStatus == constants.FAILED && action == constants.okay) setActionStatus(constants.DISPLAY)
-          if (txStatus == constants.SUCCESS && action == constants.okay) {
+        if (actionStatus === constants.LEVEL_UP) {
+          if (txStatus === constants.FAILED && action === constants.okay) setActionStatus(constants.DISPLAY)
+          if (txStatus === constants.SUCCESS && action === constants.okay) {
             await update()
             setGameStaus(constants.FARMING)
             setActionStatus(constants.DISPLAY)
@@ -101,10 +101,10 @@ export function AppContextProvider({ children }: IAppContextProvider) {
         }
         break
       case constants.DEADLINE_2:
-        if (action == constants.harvest) harvest()
-        if (actionStatus == constants.HARVEST) {
-          if (txStatus == constants.FAILED && action == constants.okay) setActionStatus(constants.DISPLAY)
-          if (txStatus == constants.SUCCESS && action == constants.okay) {
+        if (action === constants.harvest) harvest()
+        if (actionStatus === constants.HARVEST) {
+          if (txStatus === constants.FAILED && action === constants.okay) setActionStatus(constants.DISPLAY)
+          if (txStatus === constants.SUCCESS && action === constants.okay) {
             await update()
             setGameStaus(constants.NEW_GAME)
             setActionStatus(constants.DISPLAY)
@@ -112,10 +112,10 @@ export function AppContextProvider({ children }: IAppContextProvider) {
         }
         break
       case constants.GAMEOVER:
-        if (action == constants.remove) remove()
-        if (actionStatus == constants.REMOVE) {
-          if (txStatus == constants.FAILED && action == constants.okay) setActionStatus(constants.DISPLAY)
-          if (txStatus == constants.SUCCESS && action == constants.okay) {
+        if (action === constants.remove) remove()
+        if (actionStatus === constants.REMOVE) {
+          if (txStatus === constants.FAILED && action === constants.okay) setActionStatus(constants.DISPLAY)
+          if (txStatus === constants.SUCCESS && action === constants.okay) {
             await update()
             setGameStaus(constants.NEW_GAME)
             setActionStatus(constants.DISPLAY)
@@ -126,8 +126,8 @@ export function AppContextProvider({ children }: IAppContextProvider) {
         break
     }
 
-    if (gameStatus != constants.DISCONNECTED) {
-      if (action == constants.disconnect) {
+    if (gameStatus !== constants.DISCONNECTED) {
+      if (action === constants.disconnect) {
         disconnect()
       }
     }
@@ -136,7 +136,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
   const update = async () => {
     let g_gameStatus: any
     const farmInfo: any = await g_Model.getAppData()
-    if (farmInfo.success == false) {
+    if (!farmInfo.success) {
       return
     }
     if (farmInfo.farmingID > 0) {
@@ -179,7 +179,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
         g_Model = Model
 
         const farmInfo: any = await Model.getAppData()
-        if (farmInfo.farmingID == 0) {
+        if (farmInfo.farmingID === 0) {
           setGameStaus(constants.CUTSCENE_1)
           setTimeout(() => {
             setGameStaus(constants.NEW_GAME)
@@ -198,8 +198,8 @@ export function AppContextProvider({ children }: IAppContextProvider) {
         }
         setActionStatus(constants.DISPLAY)
         setAppData(cookAppData(farmInfo))
-      } catch (e) {
-        console.error(e)
+      } catch (error) {
+        console.error(error)
       }
     }
   }
@@ -216,10 +216,10 @@ export function AppContextProvider({ children }: IAppContextProvider) {
     }
   }
 
-  const level_up = async () => {
+  const levelUp = async () => {
     setActionStatus(constants.LEVEL_UP)
     setTxStatus(constants.PENDING)
-    const result: any = await g_Model.level_up()
+    const result: any = await g_Model.levelUp()
     if (result.success) {
       setTxStatus(constants.SUCCESS)
       setAppData({ ...appData, txHash: result.txHash })
@@ -265,9 +265,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
   }
 
   return (
-    <AppContext.Provider value={{
-      gameStatus, actionStatus, txStatus, appData, changeStatus, appDataTemp, update, wallet
-    }}>
+    <AppContext.Provider value={{ gameStatus, actionStatus, txStatus, appData, changeStatus, appDataTemp, update, wallet }}>
       {children}
     </AppContext.Provider>
   )
