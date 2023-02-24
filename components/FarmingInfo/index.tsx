@@ -9,12 +9,12 @@ const FarmingInfo = () => {
   return (
     <div className={`absolute top-0 left-0 ${expand ? "min-w-[574px] py-12" : "min-w-[220px] py-[22px]"} px-8 bg-[#127FBCE6] duration-300`}>
       <ul className={`flex flex-col ${expand ? "pb-6 text-xl gap-10" : "pb-3 gap-[26px]"} leading-none truncate duration-300`}>
-        <li className="flex justify-between gap-6">
+        <li className="flex justify-between gap-12">
           {expand && <h2>Deposit</h2>}
           <h3 className="text-[#9FFB98]">{appData.deposit} PIT</h3>
         </li>
         <div className="flex flex-col gap-5">
-          <li className="flex justify-between gap-6">
+          <li className="flex justify-between gap-12">
             {expand && (
               <div>
                 <h2>Farming earnings current level</h2>
@@ -23,7 +23,7 @@ const FarmingInfo = () => {
             )}
             <h3 className="text-[#F2E144]">{appData.earningOfLevel} PIT</h3>
           </li>
-          <li className="flex justify-between gap-6">
+          <li className="flex justify-between gap-12">
             {expand && (
               <div>
                 <h2>Farming earnings current game</h2>
@@ -32,15 +32,15 @@ const FarmingInfo = () => {
             )}
             <h3 className="text-[#F2E144]">{appData.earningOfGame} PIT</h3>
           </li>
-          <li className="flex justify-between gap-6">
+          <li className="flex justify-between gap-12">
             {expand && <h2>Level No</h2>}
             <h3 className="text-[#F2E144]">{appData.level}/12</h3>
           </li>
         </div>
-        <li className="flex justify-between gap-6">
+        <li className="flex justify-between gap-12">
           {expand && <h2>Remaining days to level completion</h2>}
           <h3 className="flex gap-1 text-[#F2E144]">
-            {appData.remainingDays} day{appData.remainingDays > 1 && "s"}
+            {appData.remainingDays} day{appData.remainingDays !== 1 && "s"}
             {!expand && (
               <>
                 <span>left</span>
@@ -55,11 +55,11 @@ const FarmingInfo = () => {
             )}
           </h3>
         </li>
-        <li className="flex justify-between gap-6">
+        <li className="flex justify-between gap-12">
           {expand && <h2>My farming difficulty</h2>}
           <h3 className="text-[#F2E144]">{appData.difficultyOfGame}</h3>
         </li>
-        <li className="flex justify-between gap-6">
+        <li className="flex justify-between gap-12">
           {expand && <h2>Farming advantage over new farmers</h2>}
           <h3 className="text-[#9FFB98]">{appData.advantage} %</h3>
         </li>

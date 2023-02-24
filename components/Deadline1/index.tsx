@@ -29,14 +29,14 @@ const Deadline1 = () => {
                 <h4>{appData.earningOfGame} PIT</h4>
               </li>
             )}
-            <p className="-mt-1 mb-3 text-left text-xs">*last update: today</p>
+            <p className="-mt-1 mb-3 text-left text-xs">*last update: {appData.lastUpdate}</p>
             <li className="flex justify-between gap-6">
               <h3>Farming advantage over new farmers:</h3>
               <h4 className="text-[#9FFB98]">+{appData.advantage} %</h4>
             </li>
           </ul>
           <p className="text-shadow max-w-[577px] mx-auto mb-12 text-2xl leading-[30px] font-semibold text-[#D2FBE2]">
-            <span className="underline">{appData.deadline1Days} day{appData.deadline1Days > 1 && "s"} left</span> before you lose your level {appData.level} earnings{appData.level < 12 && " and your right to access the next level"}.
+            <span className="underline">{appData.deadline1Days} day{appData.deadline1Days !== 1  && "s"} left</span> before you lose your level {appData.level} earnings{appData.level < 12 && " and your right to access the next level"}.
           </p>
           <div className={`flex ${appData.level < 12 ? "justify-between" : "justify-center"} `}>
             {appData.level < 12 && (

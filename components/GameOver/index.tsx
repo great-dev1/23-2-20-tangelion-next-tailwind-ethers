@@ -28,7 +28,7 @@ const GameOver = () => {
                 <h4>{appData.earningOfGame} PIT</h4>
               </li>
             )}
-            <p className="-mt-1 mb-3 text-left text-xs">*last update: today</p>
+            <p className="-mt-1 mb-3 text-left text-xs">*last update: {appData.lastUpdate}</p>
             <li className="flex justify-between gap-6">
               <h3>Farming advantage over new farmers:</h3>
               <h4>+{appData.advantage} %</h4>

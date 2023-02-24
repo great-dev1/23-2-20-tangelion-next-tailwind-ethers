@@ -19,14 +19,19 @@ const Home: NextPage = () => {
   useEffect(() => {
     console.log("GAME_STATUS:", gameStatus)
     console.log("ACTION_STATUS:", actionStatus)
+    console.log("TX_STATUS:", txStatus)
     console.log("APP_DATA:", appData)
+  }, [gameStatus, actionStatus,txStatus])
 
-    if (gameStatus !== constants.DISCONNECTED &&
-      gameStatus !== constants.CUTSCENE_1 &&
-      actionStatus === constants.DISPLAY) {
+  useEffect(() => {
+
+    if (gameStatus === constants.NEW_GAME && actionStatus !== constants.START ||
+      gameStatus === constants.FARMING ||
+      gameStatus === constants.DEADLINE_1 && actionStatus === constants.DISPLAY ||
+      gameStatus === constants.DEADLINE_2 && actionStatus === constants.DISPLAY) {
       update()
     }
-  }, [day])
+  }, [day, gameStatus, actionStatus])
 
   useEffect(() => {
     const interval = setInterval(async () => {

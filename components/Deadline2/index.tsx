@@ -35,7 +35,7 @@ const Deadline2 = () => {
                 <h4>{appData.earningOfGame} PIT</h4>
               </li>
             )}
-            <p className="-mt-1 text-left text-xs text-[#D9D9D9E6]">*last update: today</p>
+            <p className="-mt-1 text-left text-xs text-[#D9D9D9E6]">*last update: {appData.lastUpdate}</p>
           </ul>
 
           {appData.level === 1 && (

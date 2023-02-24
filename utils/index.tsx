@@ -79,8 +79,8 @@ const cookAppData = (temp: any) => {
   const advantage = temp.advantage >= 10 ? temp.advantage.toString().slice(0, 8) : temp.advantage.toString().slice(0, 7)
   let lastUpdate, delta = (temp.currentDay - temp.lastUpdatedDay).toString()
 
-  if (delta === "0") lastUpdate = "Today"
-  else if (delta === "1") lastUpdate = "Yesterday"
+  if (delta === "0") lastUpdate = "today"
+  else if (delta === "1") lastUpdate = "yesterday"
   else lastUpdate = `${delta} days ago`
 
   return {

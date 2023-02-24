@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react"
 import { ethers } from "ethers"
 import { PITAbi, PITAddress } from "@/contracts/PIT"
-import { ContractModel } from "./model"
+import { ContractModel } from "./ContractModel"
 import { cookAppData } from "@/utils"
 import constants from "@/utils/constants"
 
@@ -186,6 +186,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
         }
         else setGameStatus(constants.DISCONNECTED)
         window.ethereum.on("accountsChanged", handleAccountsChanged)
+        window.ethereum.on("chainChanged", handleChainChanged)
       } catch (error) {
         console.error(error)
         setGameStatus(constants.DISCONNECTED)
@@ -330,13 +331,25 @@ export function AppContextProvider({ children }: IAppContextProvider) {
   }
 
   const harvest = async () => {
-    setActionStatus(constants.HARVEST)
-    setTxStatus(constants.PENDING)
-    const result: any = await g_Model.harvest()
-    if (result.success) {
-      setTxStatus(constants.SUCCESS)
-      setAppData({ ...appData, txHash: result.txHash })
-    } else {
+    try {
+      setActionStatus(constants.HARVEST)
+      setTxStatus(constants.PENDING)
+      let startTx = await contract.harvest()
+      contract
+        .on("Harvest", (farmer: string, farmingID: string, reward: string, payout: string) => {
+          setEventData({
+            farmer: farmer,
+            farmingID: farmingID,
+            reward: reward,
+            payout: payout,
+          })
+          setTxStatus(constants.SUCCESS)
+        })
+      let txReceipt = await startTx.wait()
+      let txHash = txReceipt.events[0].transactionHash
+      setAppData({ ...appData, txHash: txHash })
+    }
+    catch (err) {
       setTxStatus(constants.FAILED)
     }
   }
@@ -347,8 +360,15 @@ export function AppContextProvider({ children }: IAppContextProvider) {
     await update()
   }
 
+  const handleChainChanged = async (chainId: any) => {
+    window.ethereum.removeAllListeners("accountsChanged")
+    window.ethereum.removeAllListeners("chainChanged")
+    disconnect()
+  }
+
   const disconnect = () => {
     window.ethereum.removeAllListeners("accountsChanged")
+    window.ethereum.removeAllListeners("chainChanged")
     setGameStatus(constants.DISCONNECTED)
   }
 
