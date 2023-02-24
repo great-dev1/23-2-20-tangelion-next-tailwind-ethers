@@ -5,7 +5,7 @@ import constants from "@/utils/constants"
 import { getPercentage } from "@/utils"
 
 const HarvestSuccess = () => {
-  const { gameStatus, actionStatus, txStatus, appData, changeStatus } = useAppContext()
+  const { gameStatus, actionStatus, txStatus, appData, changeStatus, appDataTemp } = useAppContext()
 
   return (
     <div className="fadein w-[600px] p-[26px] pb-12 rounded-[10px] text-center bg-[#3E9C37E6]">
@@ -31,7 +31,7 @@ const HarvestSuccess = () => {
         </li>
         <li className="flex justify-between gap-6 text-xl">
           <h4 className="font-medium">Earnings percentage</h4>
-          <p className="font-bold">{getPercentage(appData.earningOfGame * 100 / appData.deposit)}%</p>
+          <p className="font-bold">{getPercentage(appDataTemp.earningOfGame * 100 / appDataTemp.deposit)}%</p>
         </li>
       </ul>
       <WhiteButton onClick={() => changeStatus(constants.okay, constants.success)}>OK</WhiteButton>

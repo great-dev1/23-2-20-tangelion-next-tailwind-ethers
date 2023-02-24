@@ -43,7 +43,7 @@ const NewGame = () => {
 
   useEffect(() => {
     setEstimatedEarning(getEstEarning(deposit, appData))
-  }, [appData.currentDay])
+  }, [appData.currentDay, deposit])
 
   return (
     <>

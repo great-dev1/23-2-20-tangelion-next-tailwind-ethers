@@ -18,7 +18,7 @@ const FarmingInfo = () => {
             {expand && (
               <div>
                 <h2>Farming earnings current level</h2>
-                <p className="text-base">(last update: yesterday)</p>
+                <p className="text-base">(last update: {appData.lastUpdate})</p>
               </div>
             )}
             <h3 className="text-[#F2E144]">{appData.earningOfLevel} PIT</h3>
@@ -27,7 +27,7 @@ const FarmingInfo = () => {
             {expand && (
               <div>
                 <h2>Farming earnings current game</h2>
-                <p className="text-base">(last update: yesterday)</p>
+                <p className="text-base">(last update: {appData.lastUpdate})</p>
               </div>
             )}
             <h3 className="text-[#F2E144]">{appData.earningOfGame} PIT</h3>

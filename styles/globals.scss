@@ -48,7 +48,7 @@ body {
 }
 
 .rotate {
-  animation: rotation 1.5s infinite linear;
+  animation: rotation 1s infinite linear;
 }
 
 // Background Image
@@ -67,22 +67,6 @@ body {
     background-image: url("/images/NY_Monochrome_BG_2k.jpg");
   }
 }
-
-// .color-empty-bg {
-//   background-image: url("/images/NY_Color_Empty_BG_xl.jpg");
-
-//   @media (min-width: 1024px) {
-//     background-image: url("/images/NY_Color_Empty_BG_2k.jpg");
-//   }
-
-//   @media (min-width: 1920px) {
-//     background-image: url("/images/NY_Color_Empty_BG_2k.jpg");
-//   }
-
-//   @media (min-width: 3840px) {
-//     background-image: url("/images/NY_Color_Empty_BG_2k.jpg");
-//   }
-// }
 
 .color-new-bg {
   background-image: url("/images/NY_Color_New_BG_xl.jpg");

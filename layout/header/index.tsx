@@ -36,7 +36,7 @@ const Header = () => {
                   {gameStatus === constants.CONNECTING ? (
                     <button className="flex items-center gap-1.5" >
                       <span className="text-[#F2E144]">Loading</span>
-                      <Image className="rotate" src="/images/loading.svg" width={20} height={19} alt="loading" />
+                      <Image className="rotate" src="/images/loading.svg" width={18} height={18} alt="loading" />
                     </button>
                   ) : (
                     <button className="hover-underline flex gap-1.5 text-[#9FFB98]" onClick={() => changeStatus(constants.disconnect)}>

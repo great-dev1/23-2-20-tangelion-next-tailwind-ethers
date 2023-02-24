@@ -9,7 +9,7 @@ const bigintToString4 = (para: any) => {
   const num = BigInt(para)
   const integer = num / BigInt(1e8)
   const rest = (num % BigInt(1e8)) / BigInt(1e4) + BigInt(1e5)
-  return integer.toString() + "." + rest.toString().slice(2)
+  return customFormat(integer.toString() + "." + rest.toString().slice(2))
 }
 
 // 12345678 => 1234.5678
@@ -20,12 +20,12 @@ const difficultyToString = (para: any) => {
   return integer.toString() + "." + rest.toString().slice(2)
 }
 
-// 123456789 => 1.23456789
-const bigintToFullrange = (para: any) => {
+//1234/56789 => 1 234.56789
+const PitToString = (para: any) => {
   const num = BigInt(para)
   const integer = num / BigInt(1e8)
   const rest = (num % BigInt(1e8)) + BigInt(1e9)
-  return integer.toString() + "." + rest.toString().slice(2)
+  return customFormat(integer.toString() + "." + rest.toString().slice(2))
 }
 
 // 1234.5678 => 1234.56
@@ -48,28 +48,49 @@ const getEstEarning = (deposit: any, temp: any) => {
     estimatedfarmingAdvantage = farmingPower * 4000 * 30 / (Number(totalFarmingPower) + Number(farmingPower))
   }
 
-  return bigintToFullrange(Number.parseInt((estimatedfarmingAdvantage * 1e8).toString()))
+  return PitToString(Number.parseInt((estimatedfarmingAdvantage * 1e8).toString()))
+}
+
+const customFormat = (n: any, dp = 0) => {
+  var s = "" + Math.floor(n),
+    d = n % 1,
+    i = s.length,
+    r = ""
+  while ((i -= 3) > 0) {
+    r = " " + s.substr(i, 3) + r
+  }
+  return (
+    s.substr(0, i + 3) +
+    r +
+    (d ? "." + Math.round(d * Math.pow(10, dp || 8)) : "")
+  )
 }
 
 const cookAppData = (temp: any) => {
-  const advantage = temp.advantage > 10 ? temp.advantage.toString().slice(0, 7) : temp.advantage.toString().slice(0, 7)
+  const advantage = temp.advantage >= 10 ? temp.advantage.toString().slice(0, 8) : temp.advantage.toString().slice(0, 7)
+  let lastUpdate, delta = (temp.currentDay - temp.lastUpdatedDay).toString()
+
+  if (delta === "0") lastUpdate = "Today"
+  else if (delta === "1") lastUpdate = "Yesterday"
+  else lastUpdate = `${delta} days ago`
 
   return {
     ...temp,
     balance: bigintToString4(BigInt(temp.balance)),
-    deposit: bigintToFullrange(temp.deposit),
-    earningOfLevel: bigintToFullrange(temp.earningOfLevel),
-    earningOfGame: bigintToFullrange(temp.earningOfGame),
+    deposit: PitToString(temp.deposit),
+    earningOfLevel: PitToString(temp.earningOfLevel),
+    earningOfGame: PitToString(temp.earningOfGame),
     difficultyOfGame: difficultyToString(temp.difficultyOfGame),
     difficultyOfToday: difficultyToString(temp.difficultyOfToday),
     advantage,
+    lastUpdate: lastUpdate,
   }
 }
 
 export {
   getShortAddress,
   bigintToString4,
-  bigintToFullrange,
+  PitToString,
   getPercentage,
   getEstEarning,
   cookAppData,

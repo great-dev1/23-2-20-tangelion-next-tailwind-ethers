@@ -42,7 +42,7 @@ const defaultState = {
 const AppContext = createContext<IAppContext>(defaultState)
 
 export function AppContextProvider({ children }: IAppContextProvider) {
-  const [gameStatus, setGameStaus] = useState<string>(constants.DISCONNECTED)
+  const [gameStatus, setGameStatus] = useState<string>(constants.DISCONNECTED)
   const [actionStatus, setActionStatus] = useState<string>("")
   const [txStatus, setTxStatus] = useState<string>("")
   const [appDataTemp, setAppDataTemp] = useState<any>({})
@@ -60,7 +60,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
         }
         break
       case constants.NEW_GAME:
-        if (actionStatus !== constants.START && action === constants.start) {
+        if (actionStatus != constants.START && action === constants.start) {
           if (appDataTemp.balance < payload * 1e8) {
             setActionStatus(constants.BLINK)
             setTimeout(() => {
@@ -72,22 +72,29 @@ export function AppContextProvider({ children }: IAppContextProvider) {
         if (actionStatus === constants.START) {
           if (txStatus === constants.FAILED && action === constants.okay) setActionStatus(constants.DISPLAY)
           if (txStatus === constants.SUCCESS && action === constants.okay) {
-            await update()
-            setGameStaus(constants.FARMING)
-            setActionStatus(constants.DISPLAY)
+            setGameStatus(constants.CUTSCENE_1)
+            setTimeout(() => {
+              setGameStatus(constants.FARMING)
+              setActionStatus(constants.DISPLAY)
+            }, 15000)
+            update()
           }
         }
         break
       case constants.FARMING:
         break
       case constants.DEADLINE_1:
-        if (action === constants.harvest) harvest()
-        if (action === constants.level_up) levelUp()
+        if (action === constants.harvest) {
+          harvest()
+        }
+        if (action === constants.level_up) {
+          levelUp()
+        }
         if (actionStatus === constants.HARVEST) {
           if (txStatus === constants.FAILED && action === constants.okay) setActionStatus(constants.DISPLAY)
           if (txStatus === constants.SUCCESS && action === constants.okay) {
             await update()
-            setGameStaus(constants.NEW_GAME)
+            setGameStatus(constants.NEW_GAME)
             setActionStatus(constants.DISPLAY)
           }
         }
@@ -95,7 +102,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
           if (txStatus === constants.FAILED && action === constants.okay) setActionStatus(constants.DISPLAY)
           if (txStatus === constants.SUCCESS && action === constants.okay) {
             await update()
-            setGameStaus(constants.FARMING)
+            setGameStatus(constants.FARMING)
             setActionStatus(constants.DISPLAY)
           }
         }
@@ -106,7 +113,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
           if (txStatus === constants.FAILED && action === constants.okay) setActionStatus(constants.DISPLAY)
           if (txStatus === constants.SUCCESS && action === constants.okay) {
             await update()
-            setGameStaus(constants.NEW_GAME)
+            setGameStatus(constants.NEW_GAME)
             setActionStatus(constants.DISPLAY)
           }
         }
@@ -117,7 +124,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
           if (txStatus === constants.FAILED && action === constants.okay) setActionStatus(constants.DISPLAY)
           if (txStatus === constants.SUCCESS && action === constants.okay) {
             await update()
-            setGameStaus(constants.NEW_GAME)
+            setGameStatus(constants.NEW_GAME)
             setActionStatus(constants.DISPLAY)
           }
         }
@@ -126,10 +133,84 @@ export function AppContextProvider({ children }: IAppContextProvider) {
         break
     }
 
-    if (gameStatus !== constants.DISCONNECTED) {
+    if (gameStatus != constants.DISCONNECTED) {
       if (action === constants.disconnect) {
         disconnect()
       }
+    }
+  }
+
+  const switchEthereumChain = async () => {
+    // Check if MetaMask is installed
+    // MetaMask injects the global API into window.ethereum
+    if (window.ethereum) {
+      try {
+        // check if the chain to connect to is installed
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x13881" }], // chainId must be in hexadecimal numbers
+        })
+      } catch (error: any) {
+        // This error code indicates that the chain has not been added to MetaMask
+        // if it is not, then install it into the user MetaMask
+        console.error(error)
+        if (error.code === 4902) {
+          try {
+            await window.ethereum.request({
+              id: 1,
+              jsonrpc: "2.0",
+              method: "wallet_addEthereumChain",
+              params: [
+                {
+                  chainId: "0x13881",
+                  rpcUrls: ["https://rpc-mumbai.maticvigil.com"],
+                  chainName: "Polygon Testnet Mumbai",
+                  nativeCurrency: {
+                    name: "tMATIC",
+                    symbol: "tMATIC", // 2-6 characters long
+                    decimals: 18,
+                  },
+                  blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
+                },
+              ],
+            })
+          } catch (addError) {
+            console.error(addError)
+          }
+        }
+        console.error(error)
+      }
+    } else {
+      // if no window.ethereum then MetaMask is not installed
+      alert("MetaMask is not installed. Please consider installing it: https://metamask.io/download.html")
+    }
+  }
+
+  const addToken = async () => {
+    if (localStorage.getItem("wasAdded") === "true") { return }
+    try {
+      // wasAdded is a boolean. Like any RPC method, an error may be thrown.
+      const wasAdded = await window.ethereum.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20", // Initially only supports ERC20, but eventually more!
+          options: {
+            address: PITAddress, // The address that the token is at.
+            symbol: "PIT", // A ticker symbol or shorthand, up to 5 chars.
+            decimals: 8, // The number of decimals in the token
+            // image: tokenImage, // A string url of the token logo
+          },
+        },
+      })
+
+      if (wasAdded) {
+        console.log("Thanks for your interest!")
+        localStorage.setItem("wasAdded", "true")
+      } else {
+        console.log("Your loss!")
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -151,7 +232,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
         g_gameStatus = constants.GAMEOVER
     }
     else g_gameStatus = constants.NEW_GAME
-    setGameStaus(g_gameStatus)
+    setGameStatus(g_gameStatus)
 
     const temp = { ...appDataTemp, ...farmInfo }
     const appData = cookAppData(temp)
@@ -160,9 +241,12 @@ export function AppContextProvider({ children }: IAppContextProvider) {
   }
 
   const connect = async () => {
+    await switchEthereumChain()
+    await addToken()
+
     if (window.ethereum) {
       try {
-        setGameStaus(constants.CONNECTING)
+        setGameStatus(constants.CONNECTING)
         let provider = new ethers.providers.Web3Provider(window.ethereum)
         setProvider(provider)
         signer = provider.getSigner()
@@ -179,22 +263,18 @@ export function AppContextProvider({ children }: IAppContextProvider) {
         g_Model = Model
 
         const farmInfo: any = await Model.getAppData()
-        if (farmInfo.farmingID === 0) {
-          setGameStaus(constants.CUTSCENE_1)
-          setTimeout(() => {
-            setGameStaus(constants.NEW_GAME)
-            setActionStatus(constants.DISPLAY)
-          }, 7000)
+        if (farmInfo.farmingID == 0) {
+          setGameStatus(constants.NEW_GAME)
         }
         else {
           if (farmInfo.currentDay < farmInfo.endDay)
-            setGameStaus(constants.FARMING)
+            setGameStatus(constants.FARMING)
           else if (farmInfo.currentDay - farmInfo.endDay < 16)
-            setGameStaus(constants.DEADLINE_1)
+            setGameStatus(constants.DEADLINE_1)
           else if (farmInfo.currentDay - farmInfo.endDay > 15 && farmInfo.currentDay - farmInfo.endDay < 31)
-            setGameStaus(constants.DEADLINE_2)
+            setGameStatus(constants.DEADLINE_2)
           else if (farmInfo.currentDay - farmInfo.endDay > 30)
-            setGameStaus(constants.GAMEOVER)
+            setGameStatus(constants.GAMEOVER)
         }
         setActionStatus(constants.DISPLAY)
         setAppData(cookAppData(farmInfo))
@@ -261,7 +341,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
   const disconnect = () => {
     const { provider: ethereum } = provider
     ethereum.removeAllListeners("accountsChanged")
-    setGameStaus(constants.DISCONNECTED)
+    setGameStatus(constants.DISCONNECTED)
   }
 
   return (
