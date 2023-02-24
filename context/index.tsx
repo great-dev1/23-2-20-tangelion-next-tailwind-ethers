@@ -22,6 +22,8 @@ interface IAppContext {
   appDataTemp: any
   update: any
   wallet: any
+  eventData: any
+  g_Model: any
 }
 
 interface IAppContextProvider {
@@ -37,6 +39,8 @@ const defaultState = {
   appDataTemp: {},
   update: () => { },
   wallet: {},
+  eventData: {},
+  g_Model: {},
 }
 
 const AppContext = createContext<IAppContext>(defaultState)
@@ -50,6 +54,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
   const [provider, setProvider] = useState<any>()
   const [contract, setContract] = useState<any>()
   const [wallet, setWallet] = useState<any>()
+  const [eventData, setEventData] = useState<any>({})
   let signer, accounts: any
 
   const changeStatus = async (action: string, payload: any) => {
@@ -60,7 +65,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
         }
         break
       case constants.NEW_GAME:
-        if (actionStatus != constants.START && action === constants.start) {
+        if (actionStatus === constants.DISPLAY && action === constants.start) {
           if (appDataTemp.balance < payload * 1e8) {
             setActionStatus(constants.BLINK)
             setTimeout(() => {
@@ -73,11 +78,11 @@ export function AppContextProvider({ children }: IAppContextProvider) {
           if (txStatus === constants.FAILED && action === constants.okay) setActionStatus(constants.DISPLAY)
           if (txStatus === constants.SUCCESS && action === constants.okay) {
             setGameStatus(constants.CUTSCENE_1)
-            setTimeout(() => {
+            setTimeout(async () => {
+              await update()
               setGameStatus(constants.FARMING)
               setActionStatus(constants.DISPLAY)
-            }, 15000)
-            update()
+            }, 6000)
           }
         }
         break
@@ -136,6 +141,54 @@ export function AppContextProvider({ children }: IAppContextProvider) {
     if (gameStatus != constants.DISCONNECTED) {
       if (action === constants.disconnect) {
         disconnect()
+      }
+    }
+  }
+
+  const connect = async () => {
+    await switchEthereumChain()
+    await addToken()
+
+    if (window.ethereum) {
+      try {
+        setGameStatus(constants.CONNECTING)
+        let provider = new ethers.providers.Web3Provider(window.ethereum)
+        setProvider(provider)
+        signer = provider.getSigner()
+        const contracts = new ethers.Contract(PITAddress, PITAbi, signer)
+        setContract(contracts)
+        const Model: ContractModel = new ContractModel
+        Model.setContract(contracts)
+        accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        })
+        setWallet(accounts[0])
+        Model.setWallet(accounts[0])
+        Model.setEventFunc(setEventData)
+        g_Model = Model
+        const farmInfo: any = await Model.getAppData()
+        if (farmInfo.success) {
+          if (farmInfo.farmingID == 0) {
+            setGameStatus(constants.NEW_GAME)
+          }
+          else {
+            if (farmInfo.currentDay < farmInfo.endDay)
+              setGameStatus(constants.FARMING)
+            else if (farmInfo.currentDay - farmInfo.endDay < 16)
+              setGameStatus(constants.DEADLINE_1)
+            else if (farmInfo.currentDay - farmInfo.endDay > 15 && farmInfo.currentDay - farmInfo.endDay < 31)
+              setGameStatus(constants.DEADLINE_2)
+            else if (farmInfo.currentDay - farmInfo.endDay > 30)
+              setGameStatus(constants.GAMEOVER)
+          }
+          setActionStatus(constants.DISPLAY)
+          setAppData(cookAppData(farmInfo))
+        }
+        else setGameStatus(constants.DISCONNECTED)
+        window.ethereum.on("accountsChanged", handleAccountsChanged)
+      } catch (error) {
+        console.error(error)
+        setGameStatus(constants.DISCONNECTED)
       }
     }
   }
@@ -240,50 +293,6 @@ export function AppContextProvider({ children }: IAppContextProvider) {
     setAppData(appData)
   }
 
-  const connect = async () => {
-    await switchEthereumChain()
-    await addToken()
-
-    if (window.ethereum) {
-      try {
-        setGameStatus(constants.CONNECTING)
-        let provider = new ethers.providers.Web3Provider(window.ethereum)
-        setProvider(provider)
-        signer = provider.getSigner()
-        const contracts = new ethers.Contract(PITAddress, PITAbi, signer)
-        setContract(contracts)
-        const Model = new ContractModel
-        Model.setContract(contracts)
-        accounts = await window.ethereum.request({
-          method: "eth_requestAccounts",
-        })
-        setWallet(accounts[0])
-        Model.setWallet(accounts[0])
-        window.ethereum.on("accountsChanged", handleAccountsChanged)
-        g_Model = Model
-
-        const farmInfo: any = await Model.getAppData()
-        if (farmInfo.farmingID == 0) {
-          setGameStatus(constants.NEW_GAME)
-        }
-        else {
-          if (farmInfo.currentDay < farmInfo.endDay)
-            setGameStatus(constants.FARMING)
-          else if (farmInfo.currentDay - farmInfo.endDay < 16)
-            setGameStatus(constants.DEADLINE_1)
-          else if (farmInfo.currentDay - farmInfo.endDay > 15 && farmInfo.currentDay - farmInfo.endDay < 31)
-            setGameStatus(constants.DEADLINE_2)
-          else if (farmInfo.currentDay - farmInfo.endDay > 30)
-            setGameStatus(constants.GAMEOVER)
-        }
-        setActionStatus(constants.DISPLAY)
-        setAppData(cookAppData(farmInfo))
-      } catch (error) {
-        console.error(error)
-      }
-    }
-  }
-
   const startFarm = async (ammount: any) => {
     setActionStatus(constants.START)
     setTxStatus(constants.PENDING)
@@ -339,13 +348,15 @@ export function AppContextProvider({ children }: IAppContextProvider) {
   }
 
   const disconnect = () => {
-    const { provider: ethereum } = provider
-    ethereum.removeAllListeners("accountsChanged")
+    window.ethereum.removeAllListeners("accountsChanged")
     setGameStatus(constants.DISCONNECTED)
   }
 
   return (
-    <AppContext.Provider value={{ gameStatus, actionStatus, txStatus, appData, changeStatus, appDataTemp, update, wallet }}>
+    <AppContext.Provider value={{
+      gameStatus, actionStatus, txStatus, appData, changeStatus,
+      appDataTemp, update, wallet, eventData, g_Model
+    }}>
       {children}
     </AppContext.Provider>
   )

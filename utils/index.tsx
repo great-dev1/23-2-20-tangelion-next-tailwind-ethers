@@ -9,7 +9,8 @@ const bigintToString4 = (para: any) => {
   const num = BigInt(para)
   const integer = num / BigInt(1e8)
   const rest = (num % BigInt(1e8)) / BigInt(1e4) + BigInt(1e5)
-  return customFormat(integer.toString() + "." + rest.toString().slice(2))
+  const temp = customFormat(integer.toString()) + "." + rest.toString().slice(2)
+  return temp
 }
 
 // 12345678 => 1234.5678
@@ -20,16 +21,24 @@ const difficultyToString = (para: any) => {
   return integer.toString() + "." + rest.toString().slice(2)
 }
 
-//1234/56789 => 1 234.56789
-const PitToString = (para: any) => {
+// 1234/56789 => 1 234.56789
+const PitToString = (para: any = 0) => {
   const num = BigInt(para)
   const integer = num / BigInt(1e8)
   const rest = (num % BigInt(1e8)) + BigInt(1e9)
-  return customFormat(integer.toString() + "." + rest.toString().slice(2))
+  return customFormat(integer.toString()) + "." + rest.toString().slice(2)
+}
+
+// 123456789 => 1.23456789
+const bigintToString = (para: any) => {
+  const num = BigInt(para)
+  const integer = num / BigInt(1e8)
+  const rest = (num % BigInt(1e8)) + BigInt(1e9)
+  return (integer.toString() + "." + rest.toString().slice(2))
 }
 
 // 1234.5678 => 1234.56
-const getPercentage = (para: any) => {
+const getPercentage = (para: any = 0) => {
   const num = Math.trunc(para * 100)
   const integer = Math.trunc(num / (100))
   const rest = (num % (100)) + (100)
@@ -47,20 +56,20 @@ const getEstEarning = (deposit: any, temp: any) => {
   } else {
     estimatedfarmingAdvantage = farmingPower * 4000 * 30 / (Number(totalFarmingPower) + Number(farmingPower))
   }
-
   return PitToString(Number.parseInt((estimatedfarmingAdvantage * 1e8).toString()))
 }
 
+// 12345678.12345678 => 12 345 678.12345678
 const customFormat = (n: any, dp = 0) => {
   var s = "" + Math.floor(n),
     d = n % 1,
     i = s.length,
     r = ""
   while ((i -= 3) > 0) {
-    r = " " + s.substr(i, 3) + r
+    r = " " + s.substring(i, i + 3) + r
   }
   return (
-    s.substr(0, i + 3) +
+    s.substring(0, i + 3) +
     r +
     (d ? "." + Math.round(d * Math.pow(10, dp || 8)) : "")
   )
@@ -91,6 +100,7 @@ export {
   getShortAddress,
   bigintToString4,
   PitToString,
+  bigintToString,
   getPercentage,
   getEstEarning,
   cookAppData,

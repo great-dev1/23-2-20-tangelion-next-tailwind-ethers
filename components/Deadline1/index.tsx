@@ -7,7 +7,7 @@ import TxFailed from "../TxFailed"
 import constants from "@/utils/constants"
 
 const Deadline1 = () => {
-  const { gameStatus, actionStatus, txStatus, appData, changeStatus } = useAppContext()
+  const { actionStatus, txStatus, appData, changeStatus } = useAppContext()
 
   return (
     <>

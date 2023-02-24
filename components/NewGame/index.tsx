@@ -6,11 +6,11 @@ import TxSuccess from "../TxSuccess"
 import TxFailed from "../TxFailed"
 import { useAppContext } from "@/context"
 import constants from "@/utils/constants"
-import { getEstEarning } from "@/utils"
+import { getEstEarning, bigintToString } from "@/utils"
 
 const NewGame = () => {
   const [deposit, setDeposit] = useState<string>("1")
-  const { gameStatus, actionStatus, txStatus, appData, changeStatus, appDataTemp } = useAppContext()
+  const { actionStatus, txStatus, appData, changeStatus, appDataTemp } = useAppContext()
   const [estimatedEarning, setEstimatedEarning] = useState<string>("1")
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +32,7 @@ const NewGame = () => {
   const handleStart = () => {
     if (Number(deposit) * 1e8 > appDataTemp.balance) {
       setTimeout(() => {
-        setDeposit(appData.balance)
+        setDeposit(bigintToString(appDataTemp.balance))
       }, 1000)
     }
     if (appData.balance < 1) {

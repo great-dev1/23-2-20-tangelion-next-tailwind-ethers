@@ -3,7 +3,7 @@ import { useAppContext } from "@/context"
 import constants from "@/utils/constants"
 
 const TxFailed = () => {
-  const { gameStatus, actionStatus, txStatus, appData, changeStatus } = useAppContext()
+  const { changeStatus } = useAppContext()
 
   return (
     <div className="flex flex-col items-center w-[438px] h-[206px] pt-9 pb-[26px] rounded-[10px] text-center bg-[#515151]">

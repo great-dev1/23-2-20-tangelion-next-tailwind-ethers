@@ -4,7 +4,7 @@ import { useAppContext } from "@/context"
 import constants from "@/utils/constants"
 
 const TxSuccess = () => {
-  const { gameStatus, actionStatus, txStatus, appData, changeStatus } = useAppContext()
+  const { appData, changeStatus } = useAppContext()
 
   return (
     <div className="fadein flex flex-col items-center w-[600px] h-[240px] p-5 rounded-[10px] text-center bg-[#3E9C37E6]">

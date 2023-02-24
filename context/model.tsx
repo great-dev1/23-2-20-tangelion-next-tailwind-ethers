@@ -1,6 +1,7 @@
 export class ContractModel {
   contract: any
   wallet: any
+  setEventData: any
   constructor() {
   }
 
@@ -12,6 +13,10 @@ export class ContractModel {
     this.wallet = acc
   }
 
+  setEventFunc(func: any) {
+    this.setEventData = func
+  }
+
   getBalance(address: any) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -19,6 +24,17 @@ export class ContractModel {
         resolve(balance)
       } catch (error) {
         reject(error)
+      }
+    })
+  }
+
+  getDay() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const day = await this.contract.getDay()
+        resolve({ day, success: true })
+      } catch (error: any) {
+        resolve({ success: false, reason: error.reason })
       }
     })
   }
@@ -67,7 +83,6 @@ export class ContractModel {
           yieldArray = await this.contract.getYield()
           earningOfGame = Number(yieldArray[0]) + Number(farmArray["lockedAmount"]) - farmArray["deposit"]
         }
-
         const farmingData = {
           success: true,
           balance: balance.toString(),
@@ -77,7 +92,7 @@ export class ContractModel {
           farmingPower: farmArray[3].toString(),
           difficulty: farmArray[4].toString(),
           completedLevels: farmArray[5].toString(),
-          deposit: farmArray[6],
+          deposit: farmArray[6].toString(),
           wallet: this.wallet.toString(),
           currentDay: currentDay.toString(),
           elapsedDays: (currentDay - farmArray[2].toString()),
@@ -107,16 +122,17 @@ export class ContractModel {
     return new Promise(async (resolve, reject) => {
       try {
         let startTx = await this.contract.startFarming(amount)
-        let eventResult
         this.contract.on(
           "StartFarming",
           (farmer: string, farmingID: string, startDay: string, farmingPower: string) => {
+            let eventResult
             eventResult = {
               farmer: farmer,
               farmingID: farmingID,
               startDay: startDay,
               farmingPower: farmingPower,
             }
+            this.setEventData(eventResult)
           }
         )
         let txReceipt = await startTx.wait()
@@ -132,6 +148,14 @@ export class ContractModel {
     return new Promise(async (resolve, reject) => {
       try {
         let startTx = await this.contract.harvest()
+        this.contract.on("Harvest", (farmer: string, farmingID: string, reward: string, payout: string) => {
+          this.setEventData({
+            farmer: farmer,
+            farmingID: farmingID,
+            reward: reward,
+            payout: payout,
+          })
+        })
         let txReceipt = await startTx.wait()
         let txHash = txReceipt.events[0].transactionHash
         resolve({ txHash, success: true })

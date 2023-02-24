@@ -4,7 +4,7 @@ import { useAppContext } from "@/context"
 import constants from "@/utils/constants"
 
 const LevelUpSuccess = () => {
-  const { gameStatus, actionStatus, txStatus, appData, changeStatus } = useAppContext()
+  const { appData, changeStatus } = useAppContext()
 
   return (
     <div className="fadein w-[600px] p-[26px] rounded-[10px] text-center bg-[#3E9C37E6]">

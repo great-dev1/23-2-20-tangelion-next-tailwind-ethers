@@ -25,6 +25,7 @@ const wallet = "wallet"
 const deposit = "deposit"
 const earningOfLevel = "earningOfLevel"
 const earningOfGame = "earningOfGame"
+const earningOfCompleted = "earningOfCompleted"
 const difficultyOfToday = "difficultyOfToday"
 const difficultyOfGame = "difficultyOfGame"
 const advantage = "advantage"
@@ -70,6 +71,7 @@ export default {
   deposit,
   earningOfLevel,
   earningOfGame,
+  earningOfCompleted,
   difficultyOfToday,
   difficultyOfGame,
   advantage,

@@ -4,7 +4,7 @@ import { useAppContext } from "@/context"
 
 const FarmingInfo = () => {
   const [expand, setExpand] = useState<boolean>(false)
-  const { gameStatus, actionStatus, txStatus, appData, changeStatus } = useAppContext()
+  const { appData } = useAppContext()
 
   return (
     <div className={`absolute top-0 left-0 ${expand ? "min-w-[574px] py-12" : "min-w-[220px] py-[22px]"} px-8 bg-[#127FBCE6] duration-300`}>
@@ -40,7 +40,7 @@ const FarmingInfo = () => {
         <li className="flex justify-between gap-6">
           {expand && <h2>Remaining days to level completion</h2>}
           <h3 className="flex gap-1 text-[#F2E144]">
-            {appData.remainingDays} days
+            {appData.remainingDays} day{appData.remainingDays > 1 && "s"}
             {!expand && (
               <>
                 <span>left</span>

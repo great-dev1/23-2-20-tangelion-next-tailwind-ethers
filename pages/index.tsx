@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react';
 import type { NextPage } from "next"
 import Head from "next/head"
 import Layout from "@/layout"
@@ -13,23 +13,38 @@ import { useAppContext } from "@/context"
 import constants from "@/utils/constants"
 
 const Home: NextPage = () => {
-  const { gameStatus, actionStatus, txStatus, appData, changeStatus, update, wallet } = useAppContext()
+  const { gameStatus, actionStatus, txStatus, appData, appDataTemp, changeStatus, update, wallet, eventData, g_Model } = useAppContext()
+  const [day, setDay] = useState()
+
+  useEffect(() => {
+    console.log("GAME_STATUS:", gameStatus)
+    console.log("ACTION_STATUS:", actionStatus)
+    console.log("APP_DATA:", appData)
+
+    if (gameStatus !== constants.DISCONNECTED &&
+      gameStatus !== constants.CUTSCENE_1 &&
+      actionStatus === constants.DISPLAY) {
+      update()
+    }
+  }, [day])
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      console.log("GAME_STATUS:", gameStatus)
-      console.log("ACTION_STATUS:", actionStatus)
-      console.log("APP_DATA:", appData)
+      if (!g_Model || gameStatus === constants.DISCONNECTED) {
+        return
+      }
 
-      if (gameStatus !== constants.DISCONNECTED && gameStatus !== constants.CUTSCENE_1 && actionStatus === constants.DISPLAY) {
-        update()
+      let ret = await g_Model.getDay()
+      const { day, success } = ret
+      if (success) {
+        setDay(day)
       }
     }, 2000)
 
     return () => {
       clearInterval(interval)
     }
-  }, [gameStatus, actionStatus, wallet])
+  }, [g_Model, gameStatus])
 
   return (
     <>
