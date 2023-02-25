@@ -13,7 +13,7 @@ import { useAppContext } from "@/context"
 import constants from "@/utils/constants"
 
 const Home: NextPage = () => {
-  const { gameStatus, actionStatus, txStatus, appData, appDataTemp, changeStatus, update, wallet, eventData, g_Model } = useAppContext()
+  const { gameStatus, actionStatus, txStatus, appData, update, g_Model } = useAppContext()
   const [day, setDay] = useState()
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const Home: NextPage = () => {
     console.log("ACTION_STATUS:", actionStatus)
     console.log("TX_STATUS:", txStatus)
     console.log("APP_DATA:", appData)
-  }, [gameStatus, actionStatus,txStatus])
+  }, [gameStatus, actionStatus, txStatus])
 
   useEffect(() => {
 
@@ -39,8 +39,8 @@ const Home: NextPage = () => {
         return
       }
 
-      let ret = await g_Model.getDay()
-      const { day, success } = ret
+      let result = await g_Model.getDay()
+      const { day, success } = result
       if (success) {
         setDay(day)
       }

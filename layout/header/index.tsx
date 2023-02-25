@@ -2,13 +2,13 @@ import Link from "next/link"
 import Image from "next/image"
 import { Overpass_Mono } from "@next/font/google"
 import { useAppContext } from "@/context"
-import { getShortAddress, bigintToString4 } from "@/utils"
+import { getShortAddress } from "@/utils"
 import constants from "@/utils/constants"
 
 const overpassMono = Overpass_Mono({ subsets: ["latin"] })
 
 const Header = () => {
-  const { gameStatus, actionStatus, txStatus, appData, changeStatus, wallet } = useAppContext()
+  const { gameStatus, actionStatus, appData, changeStatus, wallet } = useAppContext()
 
   return (
     <>

@@ -2,7 +2,7 @@ import { useAppContext } from "@/context"
 import constants from "@/utils/constants"
 
 const TodayDifficulty = () => {
-  const { gameStatus, actionStatus, txStatus, appData, changeStatus } = useAppContext()
+  const { gameStatus, appData } = useAppContext()
 
   return (
     <>
