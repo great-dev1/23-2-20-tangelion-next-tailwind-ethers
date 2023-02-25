@@ -12,6 +12,7 @@ declare global {
 }
 
 let g_Model: any
+let g_GameStatus: any
 
 interface IAppContext {
   gameStatus: string
@@ -24,6 +25,7 @@ interface IAppContext {
   wallet: any
   eventData: any
   g_Model: any
+  g_GameStatus: any
 }
 
 interface IAppContextProvider {
@@ -41,6 +43,7 @@ const defaultState = {
   wallet: {},
   eventData: {},
   g_Model: {},
+  g_GameStatus: "",
 }
 
 const AppContext = createContext<IAppContext>(defaultState)
@@ -77,12 +80,12 @@ export function AppContextProvider({ children }: IAppContextProvider) {
         if (actionStatus === constants.START) {
           if (txStatus === constants.FAILED && action === constants.okay) setActionStatus(constants.DISPLAY)
           if (txStatus === constants.SUCCESS && action === constants.okay) {
-            setGameStatus(constants.CUTSCENE_1)
+            setGameStatus(constants.CUTSCENE_2)
             setTimeout(async () => {
               await update()
               setGameStatus(constants.FARMING)
               setActionStatus(constants.DISPLAY)
-            }, 6000)
+            }, constants.CUTSCENE_2_TIME)
           }
         }
         break
@@ -140,6 +143,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
 
     if (gameStatus != constants.DISCONNECTED) {
       if (action === constants.disconnect) {
+        setActionStatus(constants.DISCONNECTED)
         disconnect()
       }
     }
@@ -169,7 +173,10 @@ export function AppContextProvider({ children }: IAppContextProvider) {
         const farmInfo: any = await Model.getAppData()
         if (farmInfo.success) {
           if (farmInfo.farmingID == 0) {
-            setGameStatus(constants.NEW_GAME)
+            setGameStatus(constants.CUTSCENE_1)
+            setTimeout(() => {
+              setGameStatus(constants.NEW_GAME)
+            }, constants.CUTSCENE_1_TIME)
           }
           else {
             if (farmInfo.currentDay < farmInfo.endDay)
@@ -183,8 +190,12 @@ export function AppContextProvider({ children }: IAppContextProvider) {
           }
           setActionStatus(constants.DISPLAY)
           setAppData(cookAppData(farmInfo))
+          g_GameStatus = constants.CONNECTING
         }
-        else setGameStatus(constants.DISCONNECTED)
+        else {
+          setGameStatus(constants.DISCONNECTED)
+          g_GameStatus = constants.DISCONNECTED
+        }
         window.ethereum.on("accountsChanged", handleAccountsChanged)
         window.ethereum.on("chainChanged", handleChainChanged)
       } catch (error) {
@@ -271,7 +282,7 @@ export function AppContextProvider({ children }: IAppContextProvider) {
   const update = async () => {
     let g_gameStatus: any
     const farmInfo: any = await g_Model.getAppData()
-    if (!farmInfo.success) {
+    if (!farmInfo.success || g_GameStatus === constants.DISCONNECTED) {
       return
     }
     if (farmInfo.farmingID > 0) {
@@ -367,15 +378,16 @@ export function AppContextProvider({ children }: IAppContextProvider) {
   }
 
   const disconnect = () => {
+    setGameStatus(constants.DISCONNECTED)
+    g_GameStatus = constants.DISCONNECTED
     window.ethereum.removeAllListeners("accountsChanged")
     window.ethereum.removeAllListeners("chainChanged")
-    setGameStatus(constants.DISCONNECTED)
   }
 
   return (
     <AppContext.Provider value={{
       gameStatus, actionStatus, txStatus, appData, changeStatus,
-      appDataTemp, update, wallet, eventData, g_Model
+      appDataTemp, update, wallet, eventData, g_Model, g_GameStatus
     }}>
       {children}
     </AppContext.Provider>

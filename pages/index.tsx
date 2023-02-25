@@ -3,7 +3,7 @@ import type { NextPage } from "next"
 import Head from "next/head"
 import Layout from "@/layout"
 import Intro from "@/components/Intro"
-import CutScene1 from "@/components/CutScene1"
+import CutScene from "@/components/CutScene"
 import NewGame from "@/components/NewGame"
 import FarmingInfo from "@/components/FarmingInfo"
 import Deadline1 from "@/components/Deadline1"
@@ -24,11 +24,11 @@ const Home: NextPage = () => {
   }, [gameStatus, actionStatus, txStatus])
 
   useEffect(() => {
-
-    if (gameStatus === constants.NEW_GAME && actionStatus !== constants.START ||
+    if (gameStatus === constants.NEW_GAME && actionStatus === constants.DISPLAY ||
       gameStatus === constants.FARMING ||
       gameStatus === constants.DEADLINE_1 && actionStatus === constants.DISPLAY ||
-      gameStatus === constants.DEADLINE_2 && actionStatus === constants.DISPLAY) {
+      gameStatus === constants.DEADLINE_2 && actionStatus === constants.DISPLAY ||
+      gameStatus === constants.GAMEOVER && actionStatus === constants.DISPLAY) {
       update()
     }
   }, [day, gameStatus, actionStatus])
@@ -44,7 +44,7 @@ const Home: NextPage = () => {
       if (success) {
         setDay(day)
       }
-    }, 2000)
+    }, 1000)
 
     return () => {
       clearInterval(interval)
@@ -59,9 +59,9 @@ const Home: NextPage = () => {
 
       <Layout>
         {gameStatus === constants.DISCONNECTED && <Intro />}
-        {gameStatus === constants.CONNECTING && <></>}
-        {gameStatus === constants.CUTSCENE_1 && <CutScene1 />}
+        {gameStatus === constants.CUTSCENE_1 && <CutScene no={1} />}
         {gameStatus === constants.NEW_GAME && <NewGame />}
+        {gameStatus === constants.CUTSCENE_2 && <CutScene no={2} />}
         {gameStatus === constants.FARMING && <FarmingInfo />}
         {gameStatus === constants.DEADLINE_1 && <Deadline1 />}
         {gameStatus === constants.DEADLINE_2 && <Deadline2 />}

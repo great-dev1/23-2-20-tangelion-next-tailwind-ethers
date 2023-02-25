@@ -12,7 +12,7 @@ const Header = () => {
 
   return (
     <>
-      {gameStatus !== constants.CUTSCENE_1 && (
+      {gameStatus !== constants.CUTSCENE_1 && gameStatus !== constants.CUTSCENE_2 && (
         <header className={`fadein flex items-center h-[78px] px-8 ${gameStatus === constants.DISCONNECTED || gameStatus === constants.CONNECTING ? "bg-[#515151CC]" : "bg-[#127FBCCC]"} duration-1000`}>
           <Link href="/">
             <Image src="/images/logo.svg" width={204} height={56} alt="logo" />

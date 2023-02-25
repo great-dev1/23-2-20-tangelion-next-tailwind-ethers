@@ -3,6 +3,7 @@ const DISCONNECTED = "DISCONNECTED"
 const CONNECTING = "CONNECTING"
 const CUTSCENE_1 = "CUTSCENE_1"
 const NEW_GAME = "NEW_GAME"
+const CUTSCENE_2 = "CUTSCENE_2"
 const FARMING = "FARMING"
 const DEADLINE_1 = "DEADLINE_1"
 const DEADLINE_2 = "DEADLINE_2"
@@ -48,11 +49,16 @@ const remove = "remove"
 const success = "success"
 const failed = "failed"
 
+// ENV
+const CUTSCENE_1_TIME = 4500
+const CUTSCENE_2_TIME = 10000
+
 export default {
   DISCONNECTED,
   CONNECTING,
   CUTSCENE_1,
   NEW_GAME,
+  CUTSCENE_2,
   FARMING,
   DEADLINE_1,
   DEADLINE_2,
@@ -90,4 +96,6 @@ export default {
   remove,
   success,
   failed,
+  CUTSCENE_1_TIME,
+  CUTSCENE_2_TIME,
 }

@@ -30,7 +30,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <div
         className={`min-h-screen flex flex-col mx-auto bg-bottom bg-no-repeat bg-cover duration-1000
           ${gameStatus === constants.DISCONNECTED || gameStatus === constants.CONNECTING ? "mono-bg" : (
-            gameStatus !== constants.CUTSCENE_1 && (
+            gameStatus !== constants.CUTSCENE_1 && gameStatus !== constants.CUTSCENE_2 && (
               gameStatus === constants.NEW_GAME ? "color-new-bg" : "color-crowd-bg"
             )
           )}`}
